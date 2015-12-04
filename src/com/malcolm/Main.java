@@ -19,7 +19,7 @@ public class Main {
     public final static String CONSIGNER_BANK_NUM="Bank_Account_Number";//This exists only as a place holder for a real money interface.
     // For now this will work.
     //Info for Records_Catalog Table
-    public final static String RECORD_CATALOG_TABLE_NAME="records_catalog";
+    public final static String RECORD_CATALOG_TABLE_NAME="record_catalog";
     public final static String RECORD_CATALOG_PK_COL="Record_ID";
     public final static String RECORD_CATALOG_ARTIST="Artist_Name";
     public final static String RECORD_CATALOG_ALBUM="Album_Title";
@@ -39,13 +39,16 @@ public class Main {
         try{
             conn= DriverManager.getConnection(DB_CONNECTION_URL+DB_NAME,USER,PASS);
             statement=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            System.out.println("Successful Connsction to DB");
         }catch(SQLException se){
             System.out.println("An error occurred in DB Connection");
         }
+        loadAllData();
         try{
-            if(DatabaseExists()){
+            //Record_Catalog_Display_DataModel catalog_display_dataModel;
+            if(!DatabaseExists()){
                 setup();
-                loadAllData();
+
             }
         }catch(SQLException se){
             System.out.println("An error occurred in the attempt to setup the DB");
@@ -57,7 +60,7 @@ public class Main {
             if (rs!=null){
                 rs.close();
             }
-            String allDataFromRecordCatalog="SELECT * FROM"+RECORD_CATALOG_TABLE_NAME;
+            String allDataFromRecordCatalog="SELECT * FROM "+RECORD_CATALOG_TABLE_NAME+"; ";
             rs=statement.executeQuery(allDataFromRecordCatalog);
             if(catalog_display_dataModel==null){
                 catalog_display_dataModel=new Record_Catalog_Display_DataModel(rs);
@@ -83,9 +86,9 @@ public class Main {
     }
     public static boolean setup(){
         try{
-            String create_DB_SQL="CREATE DATABASE record_store";
+            String create_DB_SQL="CREATE DATABASE record_store;";
             String create_Consigner_Table_SQL="CREATE TABLE Consigners (C_ID int NOT NULL Primary Key AUTO_INCREMENT,Consigner_Name varchar(40),Money_Owed Float, Bank_Account_Number varchar(9));";
-            String create_Record_Catalog_SQL="CREATE TABLE `record_catalog` (`Record_ID` INT(11) NOT NULL AUTO_INCREMENT,`Artist_Name` VARCHAR(40) NULL DEFAULT NULL,`Album_Title` VARCHAR(50) NULL DEFAULT NULL,`Price` DECIMAL(6,2) NULL DEFAULT NULL,`Shelved_Date` DATE NULL DEFAULT NULL,`Sold_Or_Not` BOOLEAN NULL DEFAULT False,`consigners_C_ID` INT(11) not NULL,PRIMARY KEY (`Record_ID`, `consigners_C_ID`),INDEX `fk_record_catalog_consigners_idx` (`consigners_C_ID` ASC),CONSTRAINT `fk_record_catalog_consigners`FOREIGN KEY (`consigners_C_ID`)REFERENCES `record_store`.`consigners` (`C_ID`)ON DELETE NO ACTION ON UPDATE NO ACTION)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8";
+            String create_Record_Catalog_SQL="CREATE TABLE record_catalog (`Record_ID` INT(11) NOT NULL AUTO_INCREMENT,`Artist_Name` VARCHAR(40) NULL DEFAULT NULL,`Album_Title` VARCHAR(50) NULL DEFAULT NULL,`Price` DECIMAL(6,2) NULL DEFAULT NULL,`Shelved_Date` DATE NULL DEFAULT NULL,`Sold_Or_Not` BOOLEAN NULL DEFAULT False,`consigners_C_ID` INT(11) not NULL,PRIMARY KEY (`Record_ID`, `consigners_C_ID`),INDEX `fk_record_catalog_consigners_idx` (`consigners_C_ID` ASC),CONSTRAINT `fk_record_catalog_consigners`FOREIGN KEY (`consigners_C_ID`)REFERENCES `record_store`.`consigners` (`C_ID`)ON DELETE NO ACTION ON UPDATE NO ACTION)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8";
             String insert_Test_Data_To_Consigner_Table="insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Cheapo Disc',null,902341574);" +
                     "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Cheapo Disc',null,593720754);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Treehouse Records',null,376198735);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Raving Als Records',null,738499276);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Tattersails Discs',null,837265092);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Forkrul Assail Warren of Tunes',null,283749203);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Glibibdoolblips Emporium',null,333948202);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Cheapo Disc',null,831924622);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Kurald Galein',null,999382736);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Kurald Immourlan',null,374652223);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Thiure Galein',null,927361109);";
 

@@ -26,11 +26,11 @@ public class Catalog_Maintentence_Tab extends JPanel implements WindowListener{
     private JComboBox ConsignerComboBox;
     private JLabel consignerComboBoxLabel;
 
-    Catalog_Maintentence_Tab(Record_Catalog_Display_DataModel catalogDisplayDataModel){
+    Catalog_Maintentence_Tab(final Record_Catalog_Display_DataModel catalogDisplayDataModel){
 
         recordCatalogDisplayJTable.setGridColor(Color.BLACK);
         recordCatalogDisplayJTable.setModel(catalogDisplayDataModel);
-        
+
 
 
 
