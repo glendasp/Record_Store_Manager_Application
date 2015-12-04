@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - @localhost" uuid="0925fd90-81fe-48fe-9c8e-7cbb54dc6264">
+    <database-info product="MySQL" version="5.7.9-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <database-model serializer="dbm" rdbms="MYSQL" format-version="2.2">
+      <schema id="1" name="record_store"/>
+      <table id="2" parent="1" name="consigners"/>
+      <table id="3" parent="1" name="record_catalog"/>
+      <column id="4" parent="2" name="C_ID">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="5" parent="2" name="Consigner_Name">
+        <data-type>varchar(40)</data-type>
+      </column>
+      <column id="6" parent="2" name="Money_Owed">
+        <data-type>float</data-type>
+      </column>
+      <column id="7" parent="2" name="Bank_Account_Number">
+        <data-type>varchar(9)</data-type>
+      </column>
+      <key id="8" parent="2" name="PRIMARY">
+        <columns>C_ID</columns>
+        <primary>1</primary>
+      </key>
+      <column id="9" parent="3" name="Record_ID">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <column id="10" parent="3" name="Artist_Name">
+        <data-type>varchar(40)</data-type>
+      </column>
+      <column id="11" parent="3" name="Album_Title">
+        <data-type>varchar(50)</data-type>
+      </column>
+      <column id="12" parent="3" name="Price">
+        <data-type>decimal(6,2)</data-type>
+      </column>
+      <column id="13" parent="3" name="Shelved_Date">
+        <data-type>date</data-type>
+      </column>
+      <column id="14" parent="3" name="Sold_Or_Not">
+        <data-type>tinyint(1)</data-type>
+        <default-expression>&apos;0&apos;</default-expression>
+      </column>
+      <column id="15" parent="3" name="consigners_C_ID">
+        <mandatory>1</mandatory>
+        <data-type>int(11)</data-type>
+      </column>
+      <key id="16" parent="3" name="PRIMARY">
+        <columns>Record_ID
+consigners_C_ID</columns>
+        <primary>1</primary>
+      </key>
+      <foreign-key id="17" parent="3" name="fk_record_catalog_consigners">
+        <columns>consigners_C_ID</columns>
+        <ref-key>consigners.PRIMARY</ref-key>
+        <cascade-update-rule>restrict</cascade-update-rule>
+        <cascade-delete-rule>restrict</cascade-delete-rule>
+      </foreign-key>
+    </database-model>
+  </data-source>
+</component>
