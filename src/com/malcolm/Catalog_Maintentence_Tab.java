@@ -28,6 +28,9 @@ public class Catalog_Maintentence_Tab extends JPanel implements WindowListener{
 
     Catalog_Maintentence_Tab(Record_Catalog_Display_DataModel catalogDisplayDataModel){
 
+        recordCatalogDisplayJTable.setGridColor(Color.BLACK);
+        recordCatalogDisplayJTable.setModel(catalogDisplayDataModel);
+        
 
 
 

@@ -33,6 +33,8 @@ public class Main {
     public final static int MIN_CONSIGNER_NUMBER=1;
     public final static int MAX_CONSIGNER_NUMBER=11;
 
+
+
     public static void main(String[] args) {
         try{
             conn= DriverManager.getConnection(DB_CONNECTION_URL+DB_NAME,USER,PASS);
