@@ -10,9 +10,9 @@ public class User_Interface extends JFrame{
     private JPanel rootPanel;
     //private JTable recordCatalogDisplayJTable;
     private JTabbedPane tabbedPane;
-    private static Record_Catalog_Display_DataModel catalog_display_dataModel;
 
-    public User_Interface(){
+
+    public User_Interface(final Record_Catalog_Display_DataModel catalog_display_dataModel){
         setContentPane(rootPanel);
         //create the tabbedpane, add to rootPanel, then add the tabs.
         tabbedPane=new JTabbedPane();

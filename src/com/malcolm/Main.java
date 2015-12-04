@@ -32,7 +32,7 @@ public class Main {
     //Here we put the integers for the Spinner Wheel that selects the consigner
     public final static int MIN_CONSIGNER_NUMBER=1;
     public final static int MAX_CONSIGNER_NUMBER=11;
-
+    private static Record_Catalog_Display_DataModel catalog_display_dataModel;
 
 
     public static void main(String[] args) {
@@ -50,7 +50,27 @@ public class Main {
         }catch(SQLException se){
             System.out.println("An error occurred in the attempt to setup the DB");
         }
-    User_Interface GUI = new User_Interface();
+    User_Interface GUI = new User_Interface(catalog_display_dataModel);
+    }
+    public static boolean loadAllData(int dataType){
+        try{
+            if (rs!=null){
+                rs.close();
+            }
+            String allDataFromRecordCatalog="SELECT * FROM"+RECORD_CATALOG_TABLE_NAME;
+            rs=statement.executeQuery(allDataFromRecordCatalog);
+            if(catalog_display_dataModel==null){
+                catalog_display_dataModel=new Record_Catalog_Display_DataModel(rs);
+            }
+            else{
+                catalog_display_dataModel.updateResultsSet(rs);
+            }
+            return true;
+        }catch(SQLException se){
+            System.out.println(se);
+            System.out.println("Error loading record catalog");
+            return  false;
+        }
     }
     private static boolean DatabaseExists() throws SQLException{
         //nifty method for checking to see if it is there using the metadata instead of just a query of SHOW TABLES
