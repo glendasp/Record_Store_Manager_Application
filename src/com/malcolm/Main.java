@@ -57,12 +57,14 @@ public class Main {
     }
     public static boolean loadAllData(){
         try{
+
             if (rs!=null){
                 rs.close();
             }
             String allDataFromRecordCatalog="SELECT * FROM "+RECORD_CATALOG_TABLE_NAME+"; ";
             rs=statement.executeQuery(allDataFromRecordCatalog);
             if(catalog_display_dataModel==null){
+
                 catalog_display_dataModel=new Record_Catalog_Display_DataModel(rs);
             }
             else{
