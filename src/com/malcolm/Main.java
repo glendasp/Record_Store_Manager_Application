@@ -45,14 +45,14 @@ public class Main {
         try{
             if(DatabaseExists()){
                 setup();
-
+                loadAllData();
             }
         }catch(SQLException se){
             System.out.println("An error occurred in the attempt to setup the DB");
         }
     User_Interface GUI = new User_Interface(catalog_display_dataModel);
     }
-    public static boolean loadAllData(int dataType){
+    public static boolean loadAllData(){
         try{
             if (rs!=null){
                 rs.close();
