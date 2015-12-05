@@ -78,12 +78,12 @@ private void countRows(){
         try{
             resultSet.moveToInsertRow();
             //TODO add the rest of the record info
-            resultSet.updateString(Main.RECORD_CATALOG_ARTIST,artistName);
-            resultSet.updateString(Main.RECORD_CATALOG_ALBUM,albumTitle);
-            resultSet.updateDouble(Main.RECORD_CATALOG_PRICE,price);
-            resultSet.updateString(Main.RECORD_CATALOG_SHELVED,shelvedDay);
-            resultSet.updateBoolean(Main.RECORD_CATALOG_SOLD,soldOrNot);
-            resultSet.updateInt(Main.RECORD_CATALOG_CONSIGNER,consignerID);
+            resultSet.updateString(CreateAllTables.RECORD_CATALOG_ARTIST,artistName);
+            resultSet.updateString(CreateAllTables.RECORD_CATALOG_ALBUM,albumTitle);
+            resultSet.updateDouble(CreateAllTables.RECORD_CATALOG_PRICE,price);
+            resultSet.updateString(CreateAllTables.RECORD_CATALOG_SHELVED,shelvedDay);
+            resultSet.updateBoolean(CreateAllTables.RECORD_CATALOG_SOLD,soldOrNot);
+            resultSet.updateInt(CreateAllTables.RECORD_CATALOG_CONSIGNER,consignerID);
             resultSet.insertRow();
             resultSet.moveToCurrentRow();
             fireTableDataChanged();
