@@ -66,10 +66,11 @@ public class Main {
             String allDataFromRecordCatalog="SELECT * FROM "+CreateAllTables.RECORD_CATALOG_TABLE_NAME+"; ";
             rs=ConnectToDB.statement.executeQuery(allDataFromRecordCatalog);
             if(catalog_display_dataModel==null){
-
+                System.out.println("The data model was null, making new one...");
                 catalog_display_dataModel=new Record_Catalog_Display_DataModel(rs);
             }
             else{
+                System.out.println("Found the data model!!!");
                 catalog_display_dataModel.updateResultsSet(rs);
             }
             return true;

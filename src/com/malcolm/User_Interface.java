@@ -8,7 +8,6 @@ import javax.swing.*;
 
 public class User_Interface extends JFrame{
     private JPanel rootPanel;
-    //private JTable recordCatalogDisplayJTable;
     private JTabbedPane tabbedPane;
 
 
@@ -21,6 +20,8 @@ public class User_Interface extends JFrame{
         tabbedPane.add("Consigner Information",new Consigner_Maintenece_Tab().getPanel());
         setVisible(true);
         pack();
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        //todo Activate the DBSHUTDOWN METHOD IN CONNECTODB to close all resources
 
 
     }

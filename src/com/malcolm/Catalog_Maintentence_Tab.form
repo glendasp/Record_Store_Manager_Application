@@ -86,7 +86,9 @@
         <children>
           <component id="d18c1" class="javax.swing.JTable" binding="recordCatalogDisplayJTable">
             <constraints/>
-            <properties/>
+            <properties>
+              <autoCreateRowSorter value="true"/>
+            </properties>
           </component>
         </children>
       </scrollpane>

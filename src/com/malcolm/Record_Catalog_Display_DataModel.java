@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class Record_Catalog_Display_DataModel extends AbstractTableModel {
     private int rowCount = 0;
     private int colCount = 0;
-    ResultSet resultSet;
+    private ResultSet resultSet;
 
     public Record_Catalog_Display_DataModel(ResultSet rs){
         this.resultSet=rs;

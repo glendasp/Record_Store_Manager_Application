@@ -38,4 +38,9 @@ public class ConnectToDB {
         }
     }
 
+    protected static void shutDownDBResources() throws SQLException {
+        statement.close();
+        conn.close();
+        rs.close();
+    }
 }
