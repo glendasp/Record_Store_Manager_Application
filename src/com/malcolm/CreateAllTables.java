@@ -56,6 +56,17 @@ public void ActivateTableCreation(){
 
     }
 }
+    private static boolean insert_Into_Consigners_Table(){
+        String insert_Test_Data_To_Consigner_Table="insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Cheapo Disc',null,902341574);" +
+                "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Cheapo Disc',null,593720754);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Treehouse Records',null,376198735);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Raving Als Records',null,738499276);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Tattersails Discs',null,837265092);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Forkrul Assail Warren of Tunes',null,283749203);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Glibibdoolblips Emporium',null,333948202);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Cheapo Disc',null,831924622);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Kurald Galein',null,999382736);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Kurald Immourlan',null,374652223);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Thiure Galein',null,927361109);";
+        try{
+            ConnectToDB.statement.executeUpdate(insert_Test_Data_To_Consigner_Table);
+        }catch(SQLException se){
+            System.out.println(se);
+            System.out.println("\nYou had an error inserting data in the Cosigners tables.");
+        }
+        return true;
+    }
     private static boolean insert_Test_Data_For_Record_Catalog(){
         String insert_Test_Data_Into_Records_Table =
                 "insert into record_catalog (Artist_Name,Album_Title,Price,Shelved_Date,Sold_Or_Not,consigners_C_ID) Values('Dosh','Tommy',20.75,'2015-03-15',false,5);" +
