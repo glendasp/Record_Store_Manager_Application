@@ -38,7 +38,7 @@ public class Main {
     public static void main(String[] args) {
         try{
             conn= DriverManager.getConnection(DB_CONNECTION_URL+DB_NAME,USER,PASS);
-            statement=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            statement=conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
             System.out.println("Successful Connsction to DB");
         }catch(SQLException se){
             System.out.println("An error occurred in DB Connection");
