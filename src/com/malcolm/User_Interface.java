@@ -1,12 +1,15 @@
 package com.malcolm;
 
 import javax.swing.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.sql.SQLException;
 
 /**
  * Created by Malcolm on 12/2/2015.
  */
 
-public class User_Interface extends JFrame{
+public class User_Interface extends JFrame implements WindowListener{
     private JPanel rootPanel;
     private JTabbedPane tabbedPane;
 
@@ -21,8 +24,45 @@ public class User_Interface extends JFrame{
         setVisible(true);
         pack();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        //todo Activate the DBSHUTDOWN METHOD IN CONNECTODB to close all resources
 
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        try{
+            ConnectToDB.shutDownDBResources();
+        }catch(SQLException se){
+            System.out.println("An error occurred when trying to close DB resources.");
+        }
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
 
     }
 }

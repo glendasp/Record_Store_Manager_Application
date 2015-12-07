@@ -38,23 +38,8 @@ public class Main {
     public static void main(String[] args) {
         ConnectToDB connectToDB = new ConnectToDB();
         loadAllData();
-//        try{
-//            conn= DriverManager.getConnection(DB_CONNECTION_URL+DB_NAME,USER,PASS);
-//            statement=conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
-//            System.out.println("Successful Connsction to DB");
-//        }catch(SQLException se){
-//            System.out.println("An error occurred in DB Connection");
-//        }
-//        loadAllData();
-//        try{
-//            //Record_Catalog_Display_DataModel catalog_display_dataModel;
-//            if(!DatabaseExists()){
-//                setup();
-//
-//            }
-//        }catch(SQLException se){
-//            System.out.println("An error occurred in the attempt to setup the DB");
-//        }
+
+        
     User_Interface GUI = new User_Interface(catalog_display_dataModel);
     }
     public static boolean loadAllData(){

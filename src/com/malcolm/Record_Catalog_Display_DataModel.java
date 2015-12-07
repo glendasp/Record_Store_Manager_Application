@@ -53,6 +53,7 @@ private void countRows(){
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         try{
+            System.out.println("Trying to get value at....");
             resultSet.absolute(rowIndex+1);
             Object singleRowOfData=resultSet.getObject(columnIndex+1);
             return singleRowOfData.toString();
