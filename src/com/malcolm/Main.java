@@ -40,6 +40,7 @@ public class Main {
 
         loadAllData();
 
+
     User_Interface GUI = new User_Interface(catalog_display_dataModel);
     }
     public static boolean loadAllData(){
