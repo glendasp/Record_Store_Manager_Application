@@ -28,7 +28,7 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties>
-          <text value="Button"/>
+          <text value="Add Record"/>
         </properties>
       </component>
       <component id="31ab5" class="javax.swing.JTextField" binding="albumTitleTextField">

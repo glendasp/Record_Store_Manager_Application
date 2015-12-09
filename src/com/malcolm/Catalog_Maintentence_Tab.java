@@ -29,12 +29,27 @@ public class Catalog_Maintentence_Tab extends JPanel{
 
     Catalog_Maintentence_Tab(final Record_Catalog_Display_DataModel catalogDisplayDataModel){
 
+
+
         recordCatalogDisplayJTable.setGridColor(Color.BLACK);
         recordCatalogDisplayJTable.setModel(catalogDisplayDataModel);
 
 
-
-
+//        addRecordButton.addActionListener(new ActionListener() {
+//
+//            String artistName="";
+//            String albumName="";
+//            double price = 0;
+//            String year = "";
+//            String month = "";
+//            String day = "";
+//            String completeDateInfo=year+"-"+month+"-"+day;
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//            artistName = artistNameTextField.getText();
+//             //   catalogDisplayDataModel.insert_Record_To_Catalog(artistName,albumName)
+//            }
+//        });
     }
     public JPanel getPanel(){
         return catalog_Maint_Panel;

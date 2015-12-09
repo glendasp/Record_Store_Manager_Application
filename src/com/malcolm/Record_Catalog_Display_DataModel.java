@@ -47,6 +47,12 @@ private void countRows(){
 
     @Override
     public int getColumnCount() {
+        try{
+            colCount=resultSet.getMetaData().getColumnCount();
+        }catch(SQLException se){
+            System.out.println(se);
+            System.out.println("Error created by get column count");
+        }
         return colCount;
     }
 
@@ -55,8 +61,8 @@ private void countRows(){
         try{
             System.out.println("Trying to get value at....");
             resultSet.absolute(rowIndex+1);
-            Object singleRowOfData=resultSet.getObject(columnIndex+1);
-            return singleRowOfData.toString();
+            Object data=resultSet.getObject(columnIndex+1);
+            return data.toString();
         }catch(SQLException se){
             System.out.println(se +" Triggered by getValueAt in datamodel.");
         return se.toString();

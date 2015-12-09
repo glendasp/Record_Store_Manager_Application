@@ -39,21 +39,21 @@ public void ActivateTableCreation(){
     System.out.println("Checking if tables are present...");
     try{
         if(!catalog_Table_Exists()){
-            String create_Record_Catalog_SQL="CREATE TABLE record_catalog (`Record_ID` INT(11) NOT NULL AUTO_INCREMENT,`Artist_Name` VARCHAR(40) NULL DEFAULT NULL,`Album_Title` VARCHAR(50) NULL DEFAULT NULL,`Price` DECIMAL(6,2) NULL DEFAULT NULL,`Shelved_Date` DATE NULL DEFAULT NULL,`Sold_Or_Not` BOOLEAN NULL DEFAULT False,`consigners_C_ID` INT(11) not NULL,PRIMARY KEY (`Record_ID`, `consigners_C_ID`),INDEX `fk_record_catalog_consigners_idx` (`consigners_C_ID` ASC),CONSTRAINT `fk_record_catalog_consigners`FOREIGN KEY (`consigners_C_ID`)REFERENCES `record_store`.`consigners` (`C_ID`)ON DELETE NO ACTION ON UPDATE NO ACTION)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8";
+            String create_Record_Catalog_SQL="CREATE TABLE record_catalog (`Record_ID` INT(11) NOT NULL AUTO_INCREMENT ,`Artist_Name` VARCHAR(40) NULL DEFAULT NULL,`Album_Title` VARCHAR(50) NULL DEFAULT NULL,`Price` DECIMAL(6,2) NULL DEFAULT NULL,`Shelved_Date` DATE NULL DEFAULT NULL,`Sold_Or_Not` BOOLEAN NULL DEFAULT False,`consigners_C_ID` INT(11) not NULL,PRIMARY KEY (`Record_ID`, `consigners_C_ID`),INDEX `fk_record_catalog_consigners_idx` (`consigners_C_ID` ASC),CONSTRAINT `fk_record_catalog_consigners`FOREIGN KEY (`consigners_C_ID`)REFERENCES `record_store`.`consigners` (`C_ID`)ON DELETE NO ACTION ON UPDATE NO ACTION)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8";
             ConnectToDB.statement.executeUpdate(create_Record_Catalog_SQL);
             insert_Test_Data_For_Record_Catalog();
             System.out.println("Created the Records Information Table");
         }
-        if(!consigners_Table_Exists()){
+        else if(!consigners_Table_Exists()){
             String create_Consigner_Table_SQL="CREATE TABLE Consigners (C_ID int NOT NULL Primary Key AUTO_INCREMENT,Consigner_Name varchar(40),Money_Owed Float, Bank_Account_Number varchar(9));";
             ConnectToDB.statement.executeUpdate(create_Consigner_Table_SQL);
             System.out.println("Created the Consigner's Information Table");
         }
-        if(!sales_Table_Exists()){
+        else if(!sales_Table_Exists()){
 //todo put sales table shit here
         }
     }catch(SQLException se){
-
+        System.out.println("Error in creating the tables.  ActivateTableCreation");
     }
 }
     private static boolean insert_Into_Consigners_Table(){
@@ -138,7 +138,9 @@ public void ActivateTableCreation(){
         if(tableRS.next()){
             return true;
         }
-        return false;
+        else {
+            return false;
+        }
     }
     private boolean catalog_Table_Exists() throws SQLException{
         String checkTableExists = "SHOW TABLES LIKE '"+RECORD_CATALOG_TABLE_NAME+"'";
@@ -147,8 +149,10 @@ public void ActivateTableCreation(){
         if(rs.next()){
             return true;
         }
-        return false;
-}
+        else {
+            return false;
+        }
+    }
     private boolean consigners_Table_Exists() throws SQLException{
         String checkTableExists = "SHOW TABLES LIKE '"+CONSIGNER_TABLE_NAME+"'";
         System.out.println(checkTableExists);
@@ -156,7 +160,9 @@ public void ActivateTableCreation(){
         if(rs.next()){
             return true;
         }
-        return false;
+        else {
+            return false;
+        }
     }
     private boolean sales_Table_Exists() throws SQLException{
         //Fixme MAKE THIS ONCE SALES TABLE IS MADE

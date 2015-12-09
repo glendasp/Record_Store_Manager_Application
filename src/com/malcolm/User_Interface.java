@@ -24,6 +24,8 @@ public class User_Interface extends JFrame implements WindowListener{
         setVisible(true);
         pack();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        //todo Activate the DBSHUTDOWN METHOD IN CONNECTODB to close all resources
+
 
     }
 
@@ -34,11 +36,11 @@ public class User_Interface extends JFrame implements WindowListener{
 
     @Override
     public void windowClosing(WindowEvent e) {
-        try{
-            ConnectToDB.shutDownDBResources();
-        }catch(SQLException se){
-            System.out.println("An error occurred when trying to close DB resources.");
-        }
+try{
+    ConnectToDB.shutDownDBResources();
+}catch(SQLException se){
+    System.out.println("An error occurred when trying to close DB resources.");
+}
     }
 
     @Override

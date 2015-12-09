@@ -32,14 +32,14 @@ public class Main {
 //    //Here we put the integers for the Spinner Wheel that selects the consigner
 //    public final static int MIN_CONSIGNER_NUMBER=1;
 //    public final static int MAX_CONSIGNER_NUMBER=11;
-    private static Record_Catalog_Display_DataModel catalog_display_dataModel;
+    private static Record_Catalog_Display_DataModel catalog_display_dataModel=null;
 
 
     public static void main(String[] args) {
         ConnectToDB connectToDB = new ConnectToDB();
+
         loadAllData();
 
-        
     User_Interface GUI = new User_Interface(catalog_display_dataModel);
     }
     public static boolean loadAllData(){
