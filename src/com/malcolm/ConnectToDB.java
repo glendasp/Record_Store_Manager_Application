@@ -19,6 +19,8 @@ public class ConnectToDB {
     static Connection conn = null;
     static ResultSet rs = null;
 
+    private static Record_Catalog_Display_DataModel catalog_display_dataModel=null;
+
     public ConnectToDB(){
         try {
             try {
@@ -31,6 +33,8 @@ public class ConnectToDB {
                 conn = DriverManager.getConnection(DB_CONNECTION_URL + DB_NAME, USER, PASS);
                 statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 CreateAllTables createAllTables = new CreateAllTables();
+            loadAllData();
+            User_Interface GUI = new User_Interface(catalog_display_dataModel);
 
         }catch (SQLException se){
             System.out.println(se);
@@ -42,5 +46,29 @@ public class ConnectToDB {
         statement.close();
         conn.close();
         rs.close();
+    }
+    public static boolean loadAllData(){
+        try{
+
+            if (rs!=null){
+                rs.close();
+            }
+            String allDataFromRecordCatalog="SELECT * FROM "+CreateAllTables.RECORD_CATALOG_TABLE_NAME+"; ";
+            rs=ConnectToDB.statement.executeQuery(allDataFromRecordCatalog);
+            if(catalog_display_dataModel==null){
+                System.out.println("The data model was null, making new one...");
+                catalog_display_dataModel=new Record_Catalog_Display_DataModel(rs);
+
+            }
+            else{
+                System.out.println("Found the data model!!!");
+                catalog_display_dataModel.updateResultsSet(rs);
+            }
+            return true;
+        }catch(SQLException se){
+            System.out.println(se);
+            System.out.println("Error loading record catalog");
+            return  false;
+        }
     }
 }

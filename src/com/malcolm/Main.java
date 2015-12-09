@@ -38,34 +38,14 @@ public class Main {
     public static void main(String[] args) {
         ConnectToDB connectToDB = new ConnectToDB();
 
-        loadAllData();
+       // loadAllData();
 
 
-    User_Interface GUI = new User_Interface(catalog_display_dataModel);
+
     }
-    public static boolean loadAllData(){
-        try{
 
-            if (rs!=null){
-                rs.close();
-            }
-            String allDataFromRecordCatalog="SELECT * FROM "+CreateAllTables.RECORD_CATALOG_TABLE_NAME+"; ";
-            rs=ConnectToDB.statement.executeQuery(allDataFromRecordCatalog);
-            if(catalog_display_dataModel==null){
-                System.out.println("The data model was null, making new one...");
-                catalog_display_dataModel=new Record_Catalog_Display_DataModel(rs);
-            }
-            else{
-                System.out.println("Found the data model!!!");
-                catalog_display_dataModel.updateResultsSet(rs);
-            }
-            return true;
-        }catch(SQLException se){
-            System.out.println(se);
-            System.out.println("Error loading record catalog");
-            return  false;
-        }
-    }
+    //TODO FIXME Right now this is checking for the datamodel before the tables and everytihng exists, It must check ofter the tables and such exist.
+
 //    private static boolean DatabaseExists() throws SQLException{
 //        //nifty method for checking to see if it is there using the metadata instead of just a query of SHOW TABLES
 //        DatabaseMetaData metaData = conn.getMetaData();
