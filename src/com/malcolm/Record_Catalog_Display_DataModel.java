@@ -1,6 +1,7 @@
 package com.malcolm;
 
 import javax.swing.table.AbstractTableModel;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -95,24 +96,42 @@ private void countRows(){
         return false;
     }
     public boolean insert_Record_To_Catalog(String artistName,String albumTitle,double price,String shelvedDay,boolean soldOrNot,int consignerID){
+        PreparedStatement ps = null;
         try{
+
+            //insert into record_catalog (Artist_Name,Album_Title,Price,Shelved_Date,Sold_Or_Not,consigners_C_ID) Values('Dosh','Tommy',20.75,'2015-03-15',false,5);
+
+            String preparedInsertString="INSERT INTO record_catalog (Artist_Name,Album_Title,Price,Shelved_Date,Sold_Or_Not,consigners_C_ID) VALUES(?,?,?,?,?,?)";
             resultSet.moveToInsertRow();
-            //TODO add the rest of the record info
-            resultSet.updateString(CreateAllTables.RECORD_CATALOG_ARTIST,artistName);
-            resultSet.updateString(CreateAllTables.RECORD_CATALOG_ALBUM,albumTitle);
-            resultSet.updateDouble(CreateAllTables.RECORD_CATALOG_PRICE,price);
-            resultSet.updateString(CreateAllTables.RECORD_CATALOG_SHELVED,shelvedDay);
-            resultSet.updateBoolean(CreateAllTables.RECORD_CATALOG_SOLD,soldOrNot);
-            resultSet.updateInt(CreateAllTables.RECORD_CATALOG_CONSIGNER,consignerID);
-            resultSet.insertRow();
-            resultSet.moveToCurrentRow();
-            fireTableDataChanged();
+            ps=ConnectToDB.conn.prepareStatement(preparedInsertString);
+            ps.setString(1,artistName);
+            ps.setString(2,albumTitle);
+            ps.setDouble(3,price);
+            ps.setString(4,shelvedDay);
+            ps.setBoolean(5,soldOrNot);
+            ps.setInt(6,consignerID);
+            ps.executeUpdate();
+
+//            //TODO add the rest of the record info  OLD CODE Before Statments
+//            resultSet.updateString(CreateAllTables.RECORD_CATALOG_ARTIST,artistName);
+//            resultSet.updateString(CreateAllTables.RECORD_CATALOG_ALBUM,albumTitle);
+//            resultSet.updateDouble(CreateAllTables.RECORD_CATALOG_PRICE,price);
+//            resultSet.updateString(CreateAllTables.RECORD_CATALOG_SHELVED,shelvedDay);
+//            resultSet.updateBoolean(CreateAllTables.RECORD_CATALOG_SOLD,soldOrNot);
+//            resultSet.updateInt(CreateAllTables.RECORD_CATALOG_CONSIGNER,consignerID);
+//            resultSet.insertRow();
+//            resultSet.moveToCurrentRow();
+            //TODO FIgure out why this isn't updating when a new record is added
+            this.fireTableDataChanged();
+            //FIXME: I know this is a terrible solution for the issue, but it works.
+            search("Default","");
+            ps.close();
             return true;
         }catch(SQLException se){
             System.out.println(se);
             System.out.println("An error occurred adding a row.");
             return false;
-        }
+            }
     }
     public String getColumnName(int colIndex){
         try{
@@ -123,6 +142,48 @@ private void countRows(){
             System.out.println("Error caused by getColumnName of data model");
             return "ERROR IN COLUMN GETTER";
         }
+    }
+
+    public void search(String selField, String searchString) {
+        /** The ideas behind this method are entirely thanks to the genius of Anna**/
+        if (selField.equals("Default")) {
+            try {
+                this.resultSet = ConnectToDB.statement.executeQuery("SELECT * FROM " + CreateAllTables.RECORD_CATALOG_TABLE_NAME + " WHERE Sold_Or_Not = FALSE ; ");
+            }catch(SQLException se){
+                System.out.println("Error resetting to default results");
+                System.out.println(se);
+            }
+            } else {
+
+            String sqlToRun = "SELECT * FROM record_catalog WHERE " +
+                    selField + " LIKE ?";
+            PreparedStatement ps = null;
+            try {
+                ps = ConnectToDB.conn.prepareStatement(sqlToRun);
+                ps.setString(1, "%" + searchString + "%");
+                this.resultSet = ps.executeQuery();
+            } catch (SQLException sqle) {
+                System.out.println("Unable to fetch search results.");
+            }
+
+            this.fireTableDataChanged();
+        }
+    }
+    public void searchPrice(String selField, double searchPrice) {
+        /** The ideas behind this method are entirely thanks to the genius of Anna**/
+        String sqlToRun = "SELECT * FROM record_catalog WHERE " +
+                selField + " <= ?";
+        PreparedStatement ps = null;
+        try {
+            ps = ConnectToDB.conn.prepareStatement(sqlToRun);
+            ps.setDouble(1, searchPrice);
+            this.resultSet = ps.executeQuery();
+        } catch (SQLException sqle) {
+            System.out.println("Unable to fetch search results.");
+            System.out.println(sqle);
+        }
+
+        this.fireTableDataChanged();
     }
 
 

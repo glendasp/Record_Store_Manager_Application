@@ -53,7 +53,7 @@ public class Catalog_Maintentence_Tab extends JPanel{
     final private String searchOp3 = "Price";
 
     Catalog_Maintentence_Tab(final Record_Catalog_Display_DataModel catalogDisplayDataModel) {
-    //TODo FIXME: this works, but not with more than one resultset.  Make it get it's data from a linked list
+    //TODo FIXME: this works, but not with more than one resultset.  Make it get it's data from a linked list maybe
 //        try {
 //            ResultSet consignerRS = ConnectToDB.statement.executeQuery("SELECT Consigner_Name FROM consigners;");
 //            while(consignerRS.next()==true){
@@ -132,26 +132,32 @@ public class Catalog_Maintentence_Tab extends JPanel{
                 //TODO add the C_ID If statemnts here.  Better yet, make a method.
                 artistName = artistNameTextField.getText();
                 catalogDisplayDataModel.insert_Record_To_Catalog(artistName,albumName,price,completeDateInfo,soldOrNot,c_ID);
-            }
-        });
-        recordCatalogDisplayJTable.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                System.out.println("I Hear the MOUSE BEING CLICKEDDDDDD");
+            ConsignerComboBox.setSelectedItem(comboOp0);
+                albumTitleTextField.setText("");
+                yearTextField.setText("");
+                monthTextField.setText("");
+                dayTextField.setText("");
+                artistNameTextField.setText("");
             }
         });
         deleteRecordButton.addActionListener(new ActionListener() {
+
+
             @Override
             public void actionPerformed(ActionEvent e) {
+//This dialog box is the best thing ever.
+                int n=JOptionPane.showConfirmDialog(null,"Are you certain you want to delete that record?","WARNING!",JOptionPane.YES_NO_OPTION);
+                if (n==0){
+
                 int currentRow = recordCatalogDisplayJTable.getSelectedRow();
                 if(currentRow == -1){
                     JOptionPane.showMessageDialog(catalog_Maint_Panel,"Please choose a record to delete!");
                 }
                 boolean deleted = catalogDisplayDataModel.deleteRow(currentRow);
-                if(deleted){
+                if(deleted) {
                     ConnectToDB.loadAllData();
-                }else{
+                }
+                }else if(n==1){
                     JOptionPane.showMessageDialog(catalog_Maint_Panel,"The selected row was not deleted for some reason.");
                 }
             }
@@ -159,40 +165,42 @@ public class Catalog_Maintentence_Tab extends JPanel{
         searchRecordsByButton.addActionListener(new ActionListener() {
             double price=0;
             String searchParam="";
-            String defaultQuery = "SELECT * FROM "+CreateAllTables.RECORD_CATALOG_TABLE_NAME+" WHERE Sold_Or_Not = FALSE ; ";
-            String artistQuery="SELECT * FROM "+CreateAllTables.RECORD_CATALOG_TABLE_NAME+" WHERE Artist_Name LIKE '"+searchParam+"%';";
-            String albumQuery="SELECT * FROM "+CreateAllTables.RECORD_CATALOG_TABLE_NAME+" WHERE Album_Title LIKE '"+searchParam+"%'";
-            String priceQuery="SELECT * FROM "+CreateAllTables.RECORD_CATALOG_TABLE_NAME+" WHERE Price<="+price+";";
-
-
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                try {
                     if(searchParamComboBox.getSelectedItem().equals(searchOp0)){
-                        ResultSet searchRS = ConnectToDB.statement.executeQuery(defaultQuery);
-                        catalogDisplayDataModel.updateResultsSet(searchRS);
-                        System.out.println(searchRS);
+                        catalogDisplayDataModel.search("Default","");
+                        System.out.println("Default Settings re-established");
                     }else if(searchParamComboBox.getSelectedItem().equals(searchOp1)){
                         searchParam = searchParameterTextField.getText();
-                        ResultSet searchRS = ConnectToDB.statement.executeQuery(artistQuery);
-                        catalogDisplayDataModel.updateResultsSet(searchRS);
-                        System.out.println(searchRS);
+                        catalogDisplayDataModel.search("Artist_Name",searchParam);
                     }else if(searchParamComboBox.getSelectedItem().equals(searchOp2)){
                         searchParam = searchParameterTextField.getText();
-                        ResultSet searchRS = ConnectToDB.statement.executeQuery(albumQuery);
-                        catalogDisplayDataModel.updateResultsSet(searchRS);
-                        System.out.println(searchRS);
+                        catalogDisplayDataModel.search("Album_Title",searchParam);
                     }else if(searchParamComboBox.getSelectedItem().equals(searchOp3)) {
                         price = Double.parseDouble(searchParameterTextField.getText());
-                        ResultSet searchRS = ConnectToDB.statement.executeQuery(priceQuery);
-                        catalogDisplayDataModel.updateResultsSet(searchRS);
-                        System.out.println(searchRS);
+                        catalogDisplayDataModel.searchPrice("Price",price);
                     }catalogDisplayDataModel.fireTableDataChanged();
-               }catch(SQLException se){
-
-               }
                    //catalogDisplayDataModel.updateResultsSet();
+            }
+        });
+        sellSelectedRecordButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+/**  When you left off you were looking to figure out how to just get the
+ * Record_ID of the selected record and then alter that single record with
+ * a prepared statement.  Shouldn't be too hard, use the datamodel and make the SQL do the hard work.**/
+                int n = JOptionPane.showConfirmDialog(null, "Are you certain you want to sell that record?", "WARNING!", JOptionPane.YES_NO_OPTION);
+                if (n == 0) {
+                    int rowIndex;int colIndex;
+                    rowIndex=recordCatalogDisplayJTable.getSelectedRow();
+                    System.out.println("The row I grabbed :"+rowIndex);
+                    colIndex=recordCatalogDisplayJTable.getColumnCount();
+                    System.out.println("The column I just grabbed :"+colIndex);
+                    catalogDisplayDataModel.setValueAt(true,rowIndex,colIndex);
+                } else if(n==1){
+                    JOptionPane.showMessageDialog(catalog_Maint_Panel,"  Sales Transaction Aborted.  ");
+                }
             }
         });
     }
