@@ -53,7 +53,7 @@ public class ConnectToDB {
             if (rs!=null){
                 rs.close();
             }
-            String allDataFromRecordCatalog="SELECT * FROM "+CreateAllTables.RECORD_CATALOG_TABLE_NAME+"; ";
+            String allDataFromRecordCatalog="SELECT * FROM "+CreateAllTables.RECORD_CATALOG_TABLE_NAME+" WHERE Sold_Or_Not = FALSE ; ";
             rs=ConnectToDB.statement.executeQuery(allDataFromRecordCatalog);
             if(catalog_display_dataModel==null){
                 System.out.println("The data model was null, making new one...");

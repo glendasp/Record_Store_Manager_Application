@@ -25,6 +25,18 @@ public void updateResultsSet(ResultSet newRS){
     resultSet=newRS;
     setup();
 }
+public boolean deleteRow(int row){
+    try{
+        resultSet.absolute(row+1);
+        resultSet.deleteRow();
+        fireTableDataChanged();
+        return true;
+    }catch(SQLException se){
+        System.out.println("Error deleting record.");
+        return false;
+    }
+}
+
 private void countRows(){
     rowCount=0;
     try{
@@ -76,7 +88,8 @@ private void countRows(){
         super.setValueAt(aValue, rowIndex, columnIndex);
     }
     public boolean isCellEditable(int rowIndex,int colIndex){
-        if(colIndex==666){//// FIXME: Make this a variable, depending on which resultset type is being used
+        //By havingt this I can edit certain the information within the table
+        if(colIndex==1||colIndex==2||colIndex==3||colIndex==5){//// FIXME: Make this a variable, depending on which resultset type is being used
             return true;
         }
         return false;
