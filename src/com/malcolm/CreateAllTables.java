@@ -38,18 +38,20 @@ public class CreateAllTables {
 public void ActivateTableCreation(){
     System.out.println("Checking if tables are present...");
     try{
+        if(!consigners_Table_Exists()){
+            String create_Consigner_Table_SQL="CREATE TABLE Consigners (C_ID int NOT NULL Primary Key AUTO_INCREMENT,Consigner_Name varchar(40),Address VARCHAR(50),E_Mail VARCHAR(50) , Bank_Account_Number varchar(9));";
+            ConnectToDB.statement.executeUpdate(create_Consigner_Table_SQL);
+            insert_Into_Consigners_Table();
+            System.out.println("Created the Consigner's Information Table");
+        }
         if(!catalog_Table_Exists()){
             String create_Record_Catalog_SQL="CREATE TABLE record_catalog (`Record_ID` INT(11) NOT NULL AUTO_INCREMENT ,`Artist_Name` VARCHAR(40) NULL DEFAULT NULL,`Album_Title` VARCHAR(50) NULL DEFAULT NULL,`Price` DECIMAL(6,2) NULL DEFAULT NULL,`Shelved_Date` DATE NULL DEFAULT NULL,`Sold_Or_Not` BOOLEAN NULL DEFAULT False,`consigners_C_ID` INT(11) not NULL,PRIMARY KEY (`Record_ID`, `consigners_C_ID`),INDEX `fk_record_catalog_consigners_idx` (`consigners_C_ID` ASC),CONSTRAINT `fk_record_catalog_consigners`FOREIGN KEY (`consigners_C_ID`)REFERENCES `record_store`.`consigners` (`C_ID`)ON DELETE NO ACTION ON UPDATE NO ACTION)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8";
             ConnectToDB.statement.executeUpdate(create_Record_Catalog_SQL);
             insert_Test_Data_For_Record_Catalog();
             System.out.println("Created the Records Information Table");
         }
-        else if(!consigners_Table_Exists()){
-            String create_Consigner_Table_SQL="CREATE TABLE Consigners (C_ID int NOT NULL Primary Key AUTO_INCREMENT,Consigner_Name varchar(40),Money_Owed Float, Bank_Account_Number varchar(9));";
-            ConnectToDB.statement.executeUpdate(create_Consigner_Table_SQL);
-            System.out.println("Created the Consigner's Information Table");
-        }
-        else if(!sales_Table_Exists()){
+
+        if(!sales_Table_Exists()){
 //todo put sales table shit here
         }
     }catch(SQLException se){
@@ -57,10 +59,20 @@ public void ActivateTableCreation(){
     }
 }
     private static boolean insert_Into_Consigners_Table(){
-        String insert_Test_Data_To_Consigner_Table="insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Cheapo Disc',null,902341574);" +
-                "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Cheapo Disc',null,593720754);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Treehouse Records',null,376198735);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Raving Als Records',null,738499276);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Tattersails Discs',null,837265092);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Forkrul Assail Warren of Tunes',null,283749203);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Glibibdoolblips Emporium',null,333948202);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Cheapo Disc',null,831924622);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Kurald Galein',null,999382736);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Kurald Immourlan',null,374652223);" + "insert into consigners (Consigner_Name,Money_Owed,Bank_Account_Number) Values('Thiure Galein',null,927361109);";
+
         try{
-            ConnectToDB.statement.executeUpdate(insert_Test_Data_To_Consigner_Table);
+            ConnectToDB.statement.executeUpdate("insert into consigners (Consigner_Name,Address,E_Mail,Bank_Account_Number) Values('Cheapo Disc','123 Primary Street','cheapo_Store14564@cheapo.com',902341574);");
+            ConnectToDB.statement.executeUpdate("insert into consigners (Consigner_Name,Address,E_Mail,Bank_Account_Number) Values('Cheapo Disc','456 Secondary Street','cheapo_Store14643@cheapo.com',593720754);");
+            ConnectToDB.statement.executeUpdate("insert into consigners (Consigner_Name,Address,E_Mail,Bank_Account_Number) Values('Treehouse Records','2557 Lyndale Ave S','treehouseRecords@gmail.com',376198735);");
+            ConnectToDB.statement.executeUpdate("insert into consigners (Consigner_Name,Address,E_Mail,Bank_Account_Number) Values('Raving Als Records','1800 Lovecraftian Street','insaneDeals@alsRecords.com',738499276);");
+            ConnectToDB.statement.executeUpdate("insert into consigners (Consigner_Name,Address,E_Mail,Bank_Account_Number) Values('Tattersails Discs','3429 Rat Quarter','alwaysAnEvenTrade@sorceress.com',837265092);");
+            ConnectToDB.statement.executeUpdate("insert into consigners (Consigner_Name,Address,E_Mail,Bank_Account_Number) Values('Forkrul Assail Warren of Tunes','2938 Kolanse Street','estobanse_province@kolanse.com',283749203);");
+            ConnectToDB.statement.executeUpdate("insert into consigners (Consigner_Name,Address,E_Mail,Bank_Account_Number) Values('Cheapo Disc','789 Tertiary Blvd.','cheapo_Store19854@cheapo.com',831924622);");
+            ConnectToDB.statement.executeUpdate("insert into consigners (Consigner_Name,Address,E_Mail,Bank_Account_Number) Values('Glibibdoolblips Emporium','8473 Underdark Blvd','underground_music@menzoberranzon.com',333948202);");
+            ConnectToDB.statement.executeUpdate("insert into consigners (Consigner_Name,Address,E_Mail,Bank_Account_Number) Values('Kurald Galein','921 Korrabas Ave','warren_of_Darkness@motherDark.com',999382736);");
+            ConnectToDB.statement.executeUpdate("insert into consigners (Consigner_Name,Address,E_Mail,Bank_Account_Number) Values('Kurald Immourlan','836 Annomandaris Porakki Street','warren_of_Shadow@motherDark.com',374652223);");
+            ConnectToDB.statement.executeUpdate("insert into consigners (Consigner_Name,Address,E_Mail,Bank_Account_Number) Values('Thiure Galein','32875 Tiste-Andii Drive','warren_of_Light@motherDark.com',927361109);");
+
         }catch(SQLException se){
             System.out.println(se);
             System.out.println("\nYou had an error inserting data in the Cosigners tables.");

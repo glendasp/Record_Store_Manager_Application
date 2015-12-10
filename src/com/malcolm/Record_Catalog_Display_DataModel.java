@@ -111,19 +111,8 @@ private void countRows(){
             ps.setBoolean(5,soldOrNot);
             ps.setInt(6,consignerID);
             ps.executeUpdate();
-
-//            //TODO add the rest of the record info  OLD CODE Before Statments
-//            resultSet.updateString(CreateAllTables.RECORD_CATALOG_ARTIST,artistName);
-//            resultSet.updateString(CreateAllTables.RECORD_CATALOG_ALBUM,albumTitle);
-//            resultSet.updateDouble(CreateAllTables.RECORD_CATALOG_PRICE,price);
-//            resultSet.updateString(CreateAllTables.RECORD_CATALOG_SHELVED,shelvedDay);
-//            resultSet.updateBoolean(CreateAllTables.RECORD_CATALOG_SOLD,soldOrNot);
-//            resultSet.updateInt(CreateAllTables.RECORD_CATALOG_CONSIGNER,consignerID);
-//            resultSet.insertRow();
-//            resultSet.moveToCurrentRow();
-            //TODO FIgure out why this isn't updating when a new record is added
             this.fireTableDataChanged();
-            //FIXME: I know this is a terrible solution for the issue, but it works.
+            //FIXME: I know this is a terrible solution for the issue, but it works for now.
             search("Default","");
             ps.close();
             return true;
@@ -132,6 +121,24 @@ private void countRows(){
             System.out.println("An error occurred adding a row.");
             return false;
             }
+    }
+    public boolean sellRecord(String record_ID){
+        PreparedStatement ps = null;
+        int r_id=Integer.parseInt(record_ID);
+        String sell_Record_SQL="UPDATE record_catalog SET Sold_Or_Not = true WHERE Record_ID = ? ;";
+        try{
+            ps=ConnectToDB.conn.prepareStatement(sell_Record_SQL);
+            ps.setInt(1,r_id);
+            ps.executeUpdate();
+            search("Default","");
+            return true;
+        }catch(SQLException se){
+            System.out.println("An error occurred when selling the record.");
+            System.out.println(se);
+            return false;
+        }
+
+
     }
     public String getColumnName(int colIndex){
         try{

@@ -3,10 +3,6 @@ package com.malcolm;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Arc2D;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.LinkedList;
 
 /**
  * Created by Malcolm on 12/4/2015.
@@ -155,7 +151,7 @@ public class Catalog_Maintentence_Tab extends JPanel{
                 }
                 boolean deleted = catalogDisplayDataModel.deleteRow(currentRow);
                 if(deleted) {
-                    ConnectToDB.loadAllData();
+                    ConnectToDB.loadAll_Catalog_Data();
                 }
                 }else if(n==1){
                     JOptionPane.showMessageDialog(catalog_Maint_Panel,"The selected row was not deleted for some reason.");
@@ -190,6 +186,7 @@ public class Catalog_Maintentence_Tab extends JPanel{
 /**  When you left off you were looking to figure out how to just get the
  * Record_ID of the selected record and then alter that single record with
  * a prepared statement.  Shouldn't be too hard, use the datamodel and make the SQL do the hard work.**/
+
                 int n = JOptionPane.showConfirmDialog(null, "Are you certain you want to sell that record?", "WARNING!", JOptionPane.YES_NO_OPTION);
                 if (n == 0) {
                     int rowIndex;int colIndex;
@@ -197,7 +194,11 @@ public class Catalog_Maintentence_Tab extends JPanel{
                     System.out.println("The row I grabbed :"+rowIndex);
                     colIndex=recordCatalogDisplayJTable.getColumnCount();
                     System.out.println("The column I just grabbed :"+colIndex);
-                    catalogDisplayDataModel.setValueAt(true,rowIndex,colIndex);
+                    //this grabs the ID number of the record so that I can execute the Data Models 'Sell Record' method.
+                    String i = (String)catalogDisplayDataModel.getValueAt(rowIndex,0);
+                    if(catalogDisplayDataModel.sellRecord(i)){
+                        JOptionPane.showMessageDialog(catalog_Maint_Panel,"Record has been sold and moved to sales tab.");
+                    }
                 } else if(n==1){
                     JOptionPane.showMessageDialog(catalog_Maint_Panel,"  Sales Transaction Aborted.  ");
                 }

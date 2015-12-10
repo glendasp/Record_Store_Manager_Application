@@ -14,6 +14,13 @@ public class Consigner_Maintenece_Tab extends JPanel{
     private JLabel routingNumberLabel;
     private JScrollPane containsConsignerJPanel;
     private JLabel consignerLabel;
+    private JTextField adressTextField;
+    private JLabel adressJLabel;
+    private JTextField emailTextField;
+    private JButton remove_Consigner;
+    private JButton searchConsignersButton;
+    private JComboBox comboBox1;
+    private JTextField textField1;
 
     public Consigner_Maintenece_Tab(){
 

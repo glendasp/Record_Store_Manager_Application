@@ -33,7 +33,8 @@ public class ConnectToDB {
                 conn = DriverManager.getConnection(DB_CONNECTION_URL + DB_NAME, USER, PASS);
                 statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 CreateAllTables createAllTables = new CreateAllTables();
-            loadAllData();
+            create_Record_Catalog_Data_Model();
+
             User_Interface GUI = new User_Interface(catalog_display_dataModel);
 
         }catch (SQLException se){
@@ -47,16 +48,14 @@ public class ConnectToDB {
         conn.close();
         rs.close();
     }
-    public static boolean loadAllData(){
+    public static void create_Record_Catalog_Data_Model(){
         try{
-
             if (rs!=null){
                 rs.close();
             }
-            String allDataFromRecordCatalog="SELECT * FROM "+CreateAllTables.RECORD_CATALOG_TABLE_NAME+" WHERE Sold_Or_Not = FALSE ; ";
-            rs=ConnectToDB.statement.executeQuery(allDataFromRecordCatalog);
             if(catalog_display_dataModel==null){
                 System.out.println("The data model was null, making new one...");
+                rs=ConnectToDB.statement.executeQuery("SELECT * FROM record_catalog WHERE Sold_Or_Not = FALSE");
                 catalog_display_dataModel=new Record_Catalog_Display_DataModel(rs);
 
             }
@@ -64,6 +63,14 @@ public class ConnectToDB {
                 System.out.println("Found the data model!!!");
                 catalog_display_dataModel.updateResultsSet(rs);
             }
+        }catch(SQLException se) {
+
+        }
+    }
+    public static boolean loadAll_Catalog_Data(){
+        try{
+            String allDataFromRecordCatalog="SELECT * FROM "+CreateAllTables.RECORD_CATALOG_TABLE_NAME+" WHERE Sold_Or_Not = FALSE ; ";
+            rs=ConnectToDB.statement.executeQuery(allDataFromRecordCatalog);
             return true;
         }catch(SQLException se){
             System.out.println(se);
