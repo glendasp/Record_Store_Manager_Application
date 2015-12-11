@@ -14,13 +14,13 @@ public class User_Interface extends JFrame implements WindowListener{
     private JTabbedPane tabbedPane;
 
 
-    public User_Interface(final Record_Catalog_Display_DataModel catalog_display_dataModel){
+    public User_Interface(final Record_Catalog_Display_DataModel catalog_display_dataModel,final Consigner_Display_DataModel consignerDisplayDataModel){
         setContentPane(rootPanel);
         //create the tabbedpane, add to rootPanel, then add the tabs.
         tabbedPane=new JTabbedPane();
         rootPanel.add(tabbedPane);
         tabbedPane.add("Record Catalog",new Catalog_Maintentence_Tab(catalog_display_dataModel).getPanel());
-        tabbedPane.add("Consigner Information",new Consigner_Maintenece_Tab().getPanel());
+        tabbedPane.add("Consigner Information",new Consigner_Maintenece_Tab(consignerDisplayDataModel).getPanel());
         setVisible(true);
         pack();
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

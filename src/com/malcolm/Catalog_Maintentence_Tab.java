@@ -28,7 +28,7 @@ public class Catalog_Maintentence_Tab extends JPanel{
     private JButton searchRecordsByButton;
     private JComboBox searchParamComboBox;
     //The combo box for choosing consigner choices
-
+    //FIXME THIS NEEDS TO BE BETTER. MAKE LINK LIST FOR COMBOBOX. SELECT COLX, COLY From consigners. Save to hashmap? LinkedList?
     final private String comboOp0 = "Select Consigner";
     final private String comboOp1 = "(1) Cheapo Disc";
     final private String comboOp2 ="(2) Cheapo Disc";

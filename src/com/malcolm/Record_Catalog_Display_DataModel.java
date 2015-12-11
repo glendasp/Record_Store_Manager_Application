@@ -92,8 +92,9 @@ private void countRows(){
         //By havingt this I can edit certain the information within the table
         if(colIndex==1||colIndex==2||colIndex==3||colIndex==5){//// FIXME: Make this a variable, depending on which resultset type is being used
             return true;
+        }else {
+            return false;
         }
-        return false;
     }
     public boolean insert_Record_To_Catalog(String artistName,String albumTitle,double price,String shelvedDay,boolean soldOrNot,int consignerID){
         PreparedStatement ps = null;

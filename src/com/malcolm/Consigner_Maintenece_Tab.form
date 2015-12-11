@@ -51,7 +51,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="16613" class="javax.swing.JTable" binding="table1" default-binding="true">
+          <component id="16613" class="javax.swing.JTable" binding="consigner_Display_JTable">
             <constraints/>
             <properties/>
           </component>
@@ -150,14 +150,14 @@
           <text value="Search By :"/>
         </properties>
       </component>
-      <component id="f5f70" class="javax.swing.JComboBox" binding="comboBox1" default-binding="true">
+      <component id="f5f70" class="javax.swing.JComboBox" binding="searchOptionsComboBox">
         <constraints>
           <grid row="3" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
         <properties/>
       </component>
-      <component id="26eb4" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+      <component id="26eb4" class="javax.swing.JTextField" binding="searchParameter">
         <constraints>
           <grid row="3" column="11" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
