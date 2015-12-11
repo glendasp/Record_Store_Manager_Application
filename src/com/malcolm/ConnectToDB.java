@@ -16,6 +16,7 @@ public class ConnectToDB {
     private static final String PASS = "1362WminnehahaAve";
 
     static Statement statement = null;
+    static Statement statement2 = null;
     static Connection conn = null;
     static ResultSet rs1 = null;
     static ResultSet rs2 = null;
@@ -33,12 +34,13 @@ public class ConnectToDB {
 
                 conn = DriverManager.getConnection(DB_CONNECTION_URL + DB_NAME, USER, PASS);
                 statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                statement2=conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
                 CreateAllTables createAllTables = new CreateAllTables();
             loadAll_Consigner_Data();
             loadAll_Catalog_Data();
             create_Record_Catalog_Data_Models();
             //TODO: Fix the below so you stop getting resultsset closed situation.
-            //create_Consigner_Data_Model();
+            create_Consigner_Data_Model();
 
 
             User_Interface GUI = new User_Interface(catalog_display_dataModel,consigner_Display_Datamodel);
@@ -61,7 +63,7 @@ public class ConnectToDB {
                 rs2.close();
             }
             if(consigner_Display_Datamodel==null){
-                rs2=ConnectToDB.statement.executeQuery("SELECT * FROM consigners;");
+                rs2=ConnectToDB.statement2.executeQuery("SELECT * FROM consigners;");
                 System.out.println("The data model was null, making new consigner datamodel...");
                 consigner_Display_Datamodel=new Consigner_Display_DataModel(rs2);
             }
@@ -93,7 +95,7 @@ public class ConnectToDB {
     public static boolean loadAll_Consigner_Data(){
         try{
             String allDataFromConsignerTable="SELECT * FROM "+CreateAllTables.CONSIGNER_TABLE_NAME+";";
-            rs2=ConnectToDB.statement.executeQuery(allDataFromConsignerTable);
+            rs2=ConnectToDB.statement2.executeQuery(allDataFromConsignerTable);
             return true;
         }catch(SQLException se){
             System.out.println("Error Loading Consigner Data");
