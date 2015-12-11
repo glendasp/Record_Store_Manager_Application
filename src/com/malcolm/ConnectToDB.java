@@ -17,6 +17,8 @@ public class ConnectToDB {
 
     static Statement statement = null;
     static Statement statement2 = null;
+    static Statement statementForComboBox = null;
+
     static Connection conn = null;
     static ResultSet rs1 = null;
     static ResultSet rs2 = null;
@@ -35,6 +37,7 @@ public class ConnectToDB {
                 conn = DriverManager.getConnection(DB_CONNECTION_URL + DB_NAME, USER, PASS);
                 statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 statement2=conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+                statementForComboBox=conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
                 CreateAllTables createAllTables = new CreateAllTables();
             loadAll_Consigner_Data();
             loadAll_Catalog_Data();

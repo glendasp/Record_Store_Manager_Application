@@ -76,7 +76,8 @@ public class Consigner_Display_DataModel extends AbstractTableModel{
             Object data = resultSet.getObject(columnIndex+1);
             return data.toString();
         }catch(SQLException se){
-
+            System.out.println("Cannot getValueAt for consigner Table");
+            System.out.println(se);
         }
         return null;
     }

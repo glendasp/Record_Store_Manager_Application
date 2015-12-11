@@ -3,6 +3,8 @@ package com.malcolm;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Created by Malcolm on 12/4/2015.
@@ -49,28 +51,31 @@ public class Catalog_Maintentence_Tab extends JPanel{
     final private String searchOp3 = "Price";
 
     Catalog_Maintentence_Tab(final Record_Catalog_Display_DataModel catalogDisplayDataModel) {
-    //TODo FIXME: this works, but not with more than one resultset.  Make it get it's data from a linked list maybe
-//        try {
-//            ResultSet consignerRS = ConnectToDB.statement.executeQuery("SELECT Consigner_Name FROM consigners;");
-//            while(consignerRS.next()==true){
-//                final String x = consignerRS.getString(1);
-//                ConsignerComboBox.addItem(x);
-//            }
-//        }catch(SQLException se){
-//            System.out.println("Error while grabbing consigner names.");
-//        }
+    //I am super proud of this particular bit here, It makes the comboBox and populates it... uncertain if it updates, probably doesn't.
+        //TODO : MAKE THIS A METHOD SO IT IS CALLED EVERYTIME A CONSIGNER IS ADDED
+        try {
+            ResultSet consignerRS = ConnectToDB.statementForComboBox.executeQuery("SELECT C_ID,Consigner_Name FROM consigners;");
+            while(consignerRS.next()==true){
+                final String x = consignerRS.getString(1);
+                final String y = consignerRS.getString(2);
+                final String combined = "("+x+") "+y;
+                ConsignerComboBox.addItem(combined);
+            }
+        }catch(SQLException se){
+            System.out.println("Error while grabbing consigner names.");
+        }
 
-        ConsignerComboBox.addItem(comboOp1);
-        ConsignerComboBox.addItem(comboOp2);
-        ConsignerComboBox.addItem(comboOp3);
-        ConsignerComboBox.addItem(comboOp4);
-        ConsignerComboBox.addItem(comboOp5);
-        ConsignerComboBox.addItem(comboOp6);
-        ConsignerComboBox.addItem(comboOp7);
-        ConsignerComboBox.addItem(comboOp8);
-        ConsignerComboBox.addItem(comboOp9);
-        ConsignerComboBox.addItem(comboOp10);
-        ConsignerComboBox.addItem(comboOp11);
+//        ConsignerComboBox.addItem(comboOp1);
+//        ConsignerComboBox.addItem(comboOp2);
+//        ConsignerComboBox.addItem(comboOp3);
+//        ConsignerComboBox.addItem(comboOp4);
+//        ConsignerComboBox.addItem(comboOp5);
+//        ConsignerComboBox.addItem(comboOp6);
+//        ConsignerComboBox.addItem(comboOp7);
+//        ConsignerComboBox.addItem(comboOp8);
+//        ConsignerComboBox.addItem(comboOp9);
+//        ConsignerComboBox.addItem(comboOp10);
+//        ConsignerComboBox.addItem(comboOp11);
         //add potential search parameters
         searchParamComboBox.addItem(searchOp0);
         searchParamComboBox.addItem(searchOp1);
