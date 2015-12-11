@@ -103,6 +103,7 @@ public class Catalog_Maintentence_Tab extends JPanel{
                 String split_C_ID="";
                 String comboBoxSplitList=(String)ConsignerComboBox.getSelectedItem();
                 String[] littleList=new String[2];
+                ConsignerComboBox.addItem("");
                 for(String piece:comboBoxSplitList.split(":")){
                     littleList[slotCount]=piece;
                     slotCount++;
@@ -144,7 +145,7 @@ public class Catalog_Maintentence_Tab extends JPanel{
                 //TODO add the C_ID If statemnts here.  Better yet, make a method.
                 artistName = artistNameTextField.getText();
                 catalogDisplayDataModel.insert_Record_To_Catalog(artistName,albumName,price,completeDateInfo,soldOrNot,c_ID);
-            ConsignerComboBox.setSelectedItem(comboOp0);
+                ConsignerComboBox.setSelectedItem("");
                 albumTitleTextField.setText("");
                 yearTextField.setText("");
                 monthTextField.setText("");
@@ -167,7 +168,7 @@ public class Catalog_Maintentence_Tab extends JPanel{
                 }
                 boolean deleted = catalogDisplayDataModel.deleteRow(currentRow);
                 if(deleted) {
-                    ConnectToDB.loadAll_Catalog_Data();
+                    catalogDisplayDataModel.search("Default","");
                 }
                 }else if(n==1){
                     JOptionPane.showMessageDialog(catalog_Maint_Panel,"The selected row was not deleted for some reason.");
@@ -199,9 +200,6 @@ public class Catalog_Maintentence_Tab extends JPanel{
         sellSelectedRecordButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-/**  When you left off you were looking to figure out how to just get the
- * Record_ID of the selected record and then alter that single record with
- * a prepared statement.  Shouldn't be too hard, use the datamodel and make the SQL do the hard work.**/
 
                 int n = JOptionPane.showConfirmDialog(null, "Are you certain you want to sell that record?", "WARNING!", JOptionPane.YES_NO_OPTION);
                 if (n == 0) {

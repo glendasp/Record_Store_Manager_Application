@@ -56,9 +56,12 @@ public class ConnectToDB {
 
     protected static void shutDownDBResources() throws SQLException {
         statement.close();
+        statement2.close();
+        statementForComboBox.close();
         conn.close();
         rs1.close();
         rs2.close();
+
     }
     public static void create_Consigner_Data_Model(){
         try{
