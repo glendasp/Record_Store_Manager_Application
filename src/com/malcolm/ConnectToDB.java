@@ -34,8 +34,12 @@ public class ConnectToDB {
                 conn = DriverManager.getConnection(DB_CONNECTION_URL + DB_NAME, USER, PASS);
                 statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 CreateAllTables createAllTables = new CreateAllTables();
+            loadAll_Consigner_Data();
+            loadAll_Catalog_Data();
             create_Record_Catalog_Data_Models();
+            //TODO: Fix the below so you stop getting resultsset closed situation.
             //create_Consigner_Data_Model();
+
 
             User_Interface GUI = new User_Interface(catalog_display_dataModel,consigner_Display_Datamodel);
 

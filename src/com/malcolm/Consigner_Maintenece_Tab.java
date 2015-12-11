@@ -30,7 +30,7 @@ public class Consigner_Maintenece_Tab extends JPanel{
     private String searchOp3="E-Mail";
     private String searchOp4="Routing Number";
 
-    public Consigner_Maintenece_Tab(final Consigner_Display_DataModel consigner_display_dataModel){
+    public Consigner_Maintenece_Tab(final Record_Catalog_Display_DataModel consigner_display_dataModel){
         //This is the search paramters box
         searchOptionsComboBox.addItem(searchOp0);
         searchOptionsComboBox.addItem(searchOp1);
