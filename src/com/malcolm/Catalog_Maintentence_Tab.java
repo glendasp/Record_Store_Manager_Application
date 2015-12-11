@@ -58,7 +58,7 @@ public class Catalog_Maintentence_Tab extends JPanel{
             while(consignerRS.next()==true){
                 final String x = consignerRS.getString(1);
                 final String y = consignerRS.getString(2);
-                final String combined = "("+x+") "+y;
+                final String combined = x+":"+y;
                 ConsignerComboBox.addItem(combined);
             }
         }catch(SQLException se){
@@ -99,31 +99,42 @@ public class Catalog_Maintentence_Tab extends JPanel{
             int c_ID;
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(ConsignerComboBox.getSelectedItem().equals(comboOp0)){
-                    JOptionPane.showMessageDialog(catalog_Maint_Panel,"Please choose a consigner before adding a record!");
-                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp1)){
-                    c_ID=1;
-                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp2)){
-                    c_ID=2;
-                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp3)){
-                    c_ID=3;
-                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp4)){
-                    c_ID=4;
-                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp5)){
-                    c_ID=5;
-                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp6)){
-                    c_ID=6;
-                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp7)){
-                    c_ID=7;
-                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp8)){
-                    c_ID=8;
-                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp9)){
-                    c_ID=9;
-                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp10)){
-                    c_ID=10;
-                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp11)){
-                    c_ID=11;
+                int slotCount=0;
+                String split_C_ID="";
+                String comboBoxSplitList=(String)ConsignerComboBox.getSelectedItem();
+                String[] littleList=new String[2];
+                for(String piece:comboBoxSplitList.split(":")){
+                    littleList[slotCount]=piece;
+                    slotCount++;
                 }
+
+
+//                if(ConsignerComboBox.getSelectedItem().equals(comboOp0)){
+//                    JOptionPane.showMessageDialog(catalog_Maint_Panel,"Please choose a consigner before adding a record!");
+//                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp1)){
+//                    c_ID=1;
+//                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp2)){
+//                    c_ID=2;
+//                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp3)){
+//                    c_ID=3;
+//                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp4)){
+//                    c_ID=4;
+//                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp5)){
+//                    c_ID=5;
+//                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp6)){
+//                    c_ID=6;
+//                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp7)){
+//                    c_ID=7;
+//                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp8)){
+//                    c_ID=8;
+//                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp9)){
+//                    c_ID=9;
+//                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp10)){
+//                    c_ID=10;
+//                }else if(ConsignerComboBox.getSelectedItem().equals(comboOp11)){
+//                    c_ID=11;
+//                }
+                c_ID=Integer.parseInt(littleList[0]);
                 albumName=albumTitleTextField.getText();
                 price= Double.parseDouble(priceTextField.getText());
                 year=yearTextField.getText();
