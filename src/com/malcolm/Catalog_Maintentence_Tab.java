@@ -31,18 +31,18 @@ public class Catalog_Maintentence_Tab extends JPanel{
     private JComboBox searchParamComboBox;
     //The combo box for choosing consigner choices
     //FIXME THIS NEEDS TO BE BETTER. MAKE LINK LIST FOR COMBOBOX. SELECT COLX, COLY From consigners. Save to hashmap? LinkedList?
-    final private String comboOp0 = "Select Consigner";
-    final private String comboOp1 = "(1) Cheapo Disc";
-    final private String comboOp2 ="(2) Cheapo Disc";
-    final private String comboOp3 ="(3) Treehouse Records";
-    final private String comboOp4 ="(4) Raving Als Records";
-    final private String comboOp5 ="(5) Tattersails Discs";
-    final private String comboOp6 ="(6) Forkrul Assail Warren of Tunes";
-    final private String comboOp7 ="(7) Glibibdoolblips Emporium";
-    final private String comboOp8 ="(8) Cheapo Disc";
-    final private String comboOp9 ="(9) Kurald Galein";
-    final private String comboOp10 ="(10) Kurald Immourlan";
-    final private String comboOp11 ="(11) Thiure Galein";
+//    final private String comboOp0 = "Select Consigner";
+//    final private String comboOp1 = "(1) Cheapo Disc";
+//    final private String comboOp2 ="(2) Cheapo Disc";
+//    final private String comboOp3 ="(3) Treehouse Records";
+//    final private String comboOp4 ="(4) Raving Als Records";
+//    final private String comboOp5 ="(5) Tattersails Discs";
+//    final private String comboOp6 ="(6) Forkrul Assail Warren of Tunes";
+//    final private String comboOp7 ="(7) Glibibdoolblips Emporium";
+//    final private String comboOp8 ="(8) Cheapo Disc";
+//    final private String comboOp9 ="(9) Kurald Galein";
+//    final private String comboOp10 ="(10) Kurald Immourlan";
+//    final private String comboOp11 ="(11) Thiure Galein";
 
     //the comboBox options for Searching Records
     final private String searchOp0="Default";
@@ -142,7 +142,6 @@ public class Catalog_Maintentence_Tab extends JPanel{
                 month=monthTextField.getText();
                 day=dayTextField.getText();
                 completeDateInfo=year+"-"+month+"-"+day;
-                //TODO add the C_ID If statemnts here.  Better yet, make a method.
                 artistName = artistNameTextField.getText();
                 catalogDisplayDataModel.insert_Record_To_Catalog(artistName,albumName,price,completeDateInfo,soldOrNot,c_ID);
                 ConsignerComboBox.setSelectedItem("");
@@ -220,6 +219,7 @@ public class Catalog_Maintentence_Tab extends JPanel{
         });
     }
     public JPanel getPanel(){
+        System.out.println("THE PANEL WAS FETCHED!!!!");
         return catalog_Maint_Panel;
     }
 

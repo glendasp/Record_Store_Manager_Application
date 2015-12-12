@@ -26,10 +26,17 @@ public class CreateAllTables {
     public final static String RECORD_CATALOG_SOLD="Sold_Or_Not";
     public final static String RECORD_CATALOG_CONSIGNER="consigners_C_ID";
     //TODO Make and then place the sales table infor here.
-
-    //Here we put the integers for the Spinner Wheel that selects the consigner
-    public final static int MIN_CONSIGNER_NUMBER=1;
-    public final static int MAX_CONSIGNER_NUMBER=11;
+    public final static String ARCHIVED_SALES_TABLE_NAME="archived_Sales";
+    public final static String ARCHIVED_SALES_PK_SALES_ID="Sale_ID";
+    public final static String ARCHIVED_SALES_C_ID="C_ID";
+    public final static String ARCHIVED_SALES_RECORD_ID="Record_ID";
+    public final static String ARCHIVED_SALES_S_PRICE="SalePrice";
+    public final static String ARCHIVED_SALES_S_PR_60="Our_60";
+    public final static String ARCHIVED_SALES_S_PR_40="Their_40";
+    public final static String ARCHIVED_SALES_DATE="Date_Sold";
+    public final static String ARCHIVED_SALES_ALBUM="Album_Title";
+    public final static String ARCHIVED_SALES_ARTIST="Artist_Name";
+    public final static String ARCHIVED_SALES_BANK_NUM="Bank_Account_Number";
 
     public CreateAllTables(){
         ActivateTableCreation();
@@ -50,10 +57,13 @@ public void ActivateTableCreation(){
             insert_Test_Data_For_Record_Catalog();
             System.out.println("Created the Records Information Table");
         }
-
         if(!sales_Table_Exists()){
-//todo put sales table shit here
+            String create_ArchivedSales_Table_SQL="CREATE TABLE IF NOT EXISTS `record_store`.`archived_sales` (`Sale_ID` INT(11) NOT NULL AUTO_INCREMENT, `C_ID` INT(11) NULL DEFAULT NULL, `Record_ID` INT(11) NULL DEFAULT NULL, `SalePrice` FLOAT(6,2) NULL DEFAULT NULL, `Our_60` FLOAT(6,2) NULL DEFAULT NULL, `Their_40` FLOAT(6,2) NULL DEFAULT NULL, `Date_Sold` DATE NULL DEFAULT NULL, `Album_Title` VARCHAR(50) NULL DEFAULT NULL, `Artist_Name` VARCHAR(40) NULL DEFAULT NULL, `Bank_Account_Number` INT(9) NULL DEFAULT NULL, PRIMARY KEY (`Sale_ID`), INDEX `fk_archived_sales_record_catalog1_idx` (`Record_ID` ASC), INDEX `fk_archived_sales_consigners1_idx` (`C_ID` ASC), CONSTRAINT `fk_archived_sales_consigners1` FOREIGN KEY (`C_ID`) REFERENCES `record_store`.`consigners` (`C_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION, CONSTRAINT `fk_archived_sales_record_catalog1` FOREIGN KEY (`Record_ID`) REFERENCES `record_store`.`record_catalog` (`Record_ID`) ON DELETE NO ACTION ON UPDATE NO ACTION) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8;";
+            ConnectToDB.statement.executeUpdate(create_ArchivedSales_Table_SQL);
+            insert_Test_Data_Into_Archive_Sales();
+            System.out.println("Created the Sales Archive Table.");
         }
+
     }catch(SQLException se){
         System.out.println("Error in creating the tables.  ActivateTableCreation");
     }
@@ -72,12 +82,24 @@ public void ActivateTableCreation(){
             ConnectToDB.statement.executeUpdate("insert into consigners (Consigner_Name,Address,E_Mail,Bank_Account_Number) Values('Kurald Galein','921 Korrabas Ave','warren_of_Darkness@motherDark.com',999382736);");
             ConnectToDB.statement.executeUpdate("insert into consigners (Consigner_Name,Address,E_Mail,Bank_Account_Number) Values('Kurald Immourlan','836 Annomandaris Porakki Street','warren_of_Shadow@motherDark.com',374652223);");
             ConnectToDB.statement.executeUpdate("insert into consigners (Consigner_Name,Address,E_Mail,Bank_Account_Number) Values('Thiure Galein','32875 Tiste-Andii Drive','warren_of_Light@motherDark.com',927361109);");
-
+            return true;
         }catch(SQLException se){
             System.out.println(se);
             System.out.println("\nYou had an error inserting data in the Cosigners tables.");
+            return false;
         }
-        return true;
+
+    }
+    private static boolean insert_Test_Data_Into_Archive_Sales(){
+        try{
+            //Just a test data, does not actually belong to any consigner or have a record ID
+            ConnectToDB.statement.executeUpdate("insert into archived_sales (SalePrice,Our_60,Their_40,Date_Sold,Album_Title,Artist_Name,Bank_Account_Number) Values(25.66,15.39,10.26,'2014-11-05','Money Shot','Puscifer','927509821');");
+
+            return true;
+        }catch (SQLException se){
+
+            return false;
+        }
     }
     private static boolean insert_Test_Data_For_Record_Catalog(){
         try {
@@ -178,12 +200,12 @@ public void ActivateTableCreation(){
     }
     private boolean sales_Table_Exists() throws SQLException{
         //Fixme MAKE THIS ONCE SALES TABLE IS MADE
-        String checkTableExists = "SHOW TABLES LIKE '"+CONSIGNER_TABLE_NAME+"'";
-        System.out.println(checkTableExists+" Ignore this output for now ");
+        String checkTableExists = "SHOW TABLES LIKE '"+ARCHIVED_SALES_TABLE_NAME+"'";
         ResultSet rs = ConnectToDB.statement.executeQuery(checkTableExists);
         if(rs.next()){
             return true;
+        }else{
+            return false;
         }
-        return rs.next();
     }
 }

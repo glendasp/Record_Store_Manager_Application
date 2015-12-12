@@ -1,5 +1,6 @@
 package com.malcolm;
 
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
 import javax.swing.table.AbstractTableModel;
 import javax.xml.transform.Result;
@@ -45,6 +46,7 @@ public class Consigner_Display_DataModel extends AbstractTableModel{
             while(resultSet.next()){
                 rowCount++;
             }
+            resultSet.beforeFirst();
         }catch(SQLException se){
             System.out.println("An error occurred while Data model was counting rows.");
             System.out.println(se);
@@ -104,8 +106,10 @@ public class Consigner_Display_DataModel extends AbstractTableModel{
             ps.setString(3,E_Mail);
             ps.setString(4,banking_Number);
             ps.executeUpdate();
-            fireTableDataChanged();
+            this.fireTableDataChanged();
             ps.close();
+            JOptionPane.showMessageDialog(null,"You successfully added "+consigner_Name+", Address: "+address+", E-mail: "+E_Mail+", Routing Number: "+banking_Number+".");
+            System.out.println(String.format("You added"));
             return true;
         }catch(SQLException se){
             System.out.println("Insertion of Consigner Information Failed");
@@ -113,6 +117,30 @@ public class Consigner_Display_DataModel extends AbstractTableModel{
             return false;
         }
     }
+    public void search(String selField, String searchString) {
+        /** The ideas behind this method are entirely thanks to the genius of Anna**/
+        if (selField.equals("Default")) {
+            try {
+                this.resultSet = ConnectToDB.statement2.executeQuery("SELECT * FROM " + CreateAllTables.CONSIGNER_TABLE_NAME+";");
+            }catch(SQLException se){
+                System.out.println("Error resetting to default results");
+                System.out.println(se);
+            }
+        } else {
 
+            String sqlToRun = "SELECT * FROM consigners WHERE " +
+                    selField + " LIKE ?";
+            PreparedStatement ps = null;
+            try {
+                ps = ConnectToDB.conn.prepareStatement(sqlToRun);
+                ps.setString(1, "%" + searchString + "%");
+                this.resultSet = ps.executeQuery();
+            } catch (SQLException sqle) {
+                System.out.println("Unable to fetch search results.");
+            }
+
+            this.fireTableDataChanged();
+        }
+    }
 
 }
