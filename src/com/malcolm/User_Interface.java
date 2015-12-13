@@ -28,12 +28,14 @@ public class User_Interface extends JFrame implements WindowListener{
                 System.out.println("Tab Changed To: "+sourceTabbedPane.getTitleAt(index));
                 System.out.println("Tab Index Number: "+index);
                 if(index==0){
-                    catalog_display_dataModel.search("Default","");
+                    catalog_display_dataModel.fireTableDataChanged();
                 }
                 else if(index==1){
-                    consigner_display_dataModel.search("Default","");
+                    consigner_display_dataModel.fireTableDataChanged();
                 }
                 else if(index==2){
+                    sales_Tab_Consigner_DataModel.fireTableDataChanged();
+                    sold_Records_Datamodel.fireTableDataChanged();
                     System.out.println("This is the sales tab!");
                     //TODO put actual code here
                 }
