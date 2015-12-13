@@ -162,8 +162,23 @@ private void countRows(){
             System.out.println(se);
             return false;
         }
-
-
+    }
+    public boolean record_Returned(String record_ID){
+        PreparedStatement ps = null;
+        int r_id=Integer.parseInt(record_ID);
+        String sell_Record_SQL="UPDATE record_catalog SET Sold_Or_Not = FALSE WHERE Record_ID = ? ;";
+        try{
+            ps=ConnectToDB.conn.prepareStatement(sell_Record_SQL);
+            ps.setInt(1,r_id);
+            ps.executeUpdate();
+            this.fireTableDataChanged();
+            search("Default","",2);
+            return true;
+        }catch(SQLException se){
+            System.out.println("An error occurred when selling the record.");
+            System.out.println(se);
+            return false;
+        }
     }
     public String getColumnName(int colIndex){
         try{
@@ -230,6 +245,7 @@ private void countRows(){
             if(selField=="Default"){
                 try{
                     this.resultSet=ConnectToDB.statementForSoldRecords.executeQuery("SELECT * FROM record_catalog WHERE Sold_Or_Not=TRUE AND Archived_Or_Not=FALSE ");
+                    this.fireTableDataChanged();
                 }catch (SQLException se){
                     System.out.println(se);
 
@@ -239,7 +255,10 @@ private void countRows(){
         else if(tabIndex==3){
             if(selField=="Default"){
                 try{
+
                     this.resultSet=ConnectToDB.statementForConsignerSales.executeQuery("SELECT * FROM consignerSales");
+                    this.fireTableDataChanged();
+
                 }catch (SQLException se){
                     System.out.println(se);
 
