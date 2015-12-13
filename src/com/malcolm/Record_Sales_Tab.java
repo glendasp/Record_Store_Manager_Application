@@ -16,7 +16,7 @@ public class Record_Sales_Tab extends JPanel{
     private JButton reverseSaleOfSelectedButton;
     private JLabel DISPLAY_STORE_MONEY_LABEL;
 
-    Record_Sales_Tab(final Record_Catalog_Display_DataModel sold_Records_Model,final Consigner_Display_DataModel consigner_display_dataModel) {
+    Record_Sales_Tab(final Record_Catalog_Display_DataModel sold_Records_Model,final Record_Catalog_Display_DataModel consigner_display_dataModel) {
         //Set our tables
         consignersAndOwedMoneyJTable.setGridColor(Color.BLACK);
         consignersAndOwedMoneyJTable.setModel(consigner_display_dataModel);

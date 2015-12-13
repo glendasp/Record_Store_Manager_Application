@@ -23,16 +23,18 @@ public class ConnectToDB {
     static Statement statementForComboBox = null;
     static Statement statementForSoldRecords = null;
     static Statement statementForConsignerSales=null;
+    static Statement statementForConsignerMaintTab=null;
 
     static Connection conn = null;
     static ResultSet rs1 = null;
     static ResultSet rs2 = null;
+    static ResultSet rsForConsingerMaintTab=null;
     static ResultSet rsForSoldRecords=null;
     static ResultSet rsForConsignerSales = null;
     private static Record_Catalog_Display_DataModel catalog_display_dataModel=null;
-    private static Consigner_Display_DataModel consigner_Display_Datamodel=null;
+    private static Record_Catalog_Display_DataModel consigner_Display_Datamodel=null;
     private static Record_Catalog_Display_DataModel sold_Record_Display_Datamodel=null;
-    private static Consigner_Display_DataModel consigners_On_Sales_Page=null;
+    private static Record_Catalog_Display_DataModel consigners_On_Sales_Page=null;
 
 
     public ConnectToDB(){
@@ -50,6 +52,7 @@ public class ConnectToDB {
                 statementForSoldRecords=conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
                 statementForConsignerSales=conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
                 statementForComboBox=conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+                statementForConsignerMaintTab=conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
                 CreateAllTables createAllTables = new CreateAllTables();
             loadAll_Consigner_Data();
             loadAll_Catalog_Data();
@@ -83,13 +86,13 @@ public class ConnectToDB {
     }
     public static void create_Consigner_Data_Model(){
         try{
-            if(rs2!=null){
-                rs2.close();
+            if(rsForConsingerMaintTab!=null){
+                rsForConsingerMaintTab.close();
             }
             if(consigner_Display_Datamodel==null){
-                rs2=ConnectToDB.statement2.executeQuery("SELECT * FROM consigners;");
+                rsForConsingerMaintTab=ConnectToDB.statementForConsignerMaintTab.executeQuery("SELECT * FROM consigners;");
                 System.out.println("The data model was null, making new consigner datamodel...");
-                consigner_Display_Datamodel=new Consigner_Display_DataModel(rs2);
+                consigner_Display_Datamodel=new Record_Catalog_Display_DataModel(rsForConsingerMaintTab);
             }
         }catch(SQLException se){
             System.out.println("Found the data model!!!");
@@ -112,7 +115,7 @@ public class ConnectToDB {
             if(consigners_On_Sales_Page==null){
                 createViewOfConsignerSales();
                 rsForConsignerSales=ConnectToDB.statementForConsignerSales.executeQuery("SELECT * FROM consignersales;");
-                consigners_On_Sales_Page=new Consigner_Display_DataModel(rsForConsignerSales);
+                consigners_On_Sales_Page=new Record_Catalog_Display_DataModel(rsForConsignerSales);
                 System.out.println("Data model for consigner sales was null, making new one...");
             }
         }catch(SQLException se){
@@ -142,7 +145,7 @@ public class ConnectToDB {
     public static boolean loadAll_Consigner_Data(){
         try{
             String allDataFromConsignerTable="SELECT * FROM "+CreateAllTables.CONSIGNER_TABLE_NAME+";";
-            rs2=ConnectToDB.statement2.executeQuery(allDataFromConsignerTable);
+            rsForConsingerMaintTab=ConnectToDB.statementForConsignerMaintTab.executeQuery(allDataFromConsignerTable);
             return true;
         }catch(SQLException se){
             System.out.println("Error Loading Consigner Data");

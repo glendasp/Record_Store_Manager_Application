@@ -1,5 +1,6 @@
 package com.malcolm;
 
+import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -96,6 +97,28 @@ private void countRows(){
             return false;
         }
     }
+    public boolean insert_Consigner_To_List(String consigner_Name,String address,String E_Mail,String banking_Number){
+        PreparedStatement ps = null;
+        try{
+            String prep_Insert_String="INSERT INTO consigners (Consigner_Name,Address,E_Mail,Bank_Account_Number)VALUES(?,?,?,?)";
+            resultSet.moveToInsertRow() ;
+            ps=ConnectToDB.conn.prepareStatement(prep_Insert_String);
+            ps.setString(1,consigner_Name);
+            ps.setString(2,address);
+            ps.setString(3,E_Mail);
+            ps.setString(4,banking_Number);
+            ps.executeUpdate();
+            this.fireTableDataChanged();
+            ps.close();
+            JOptionPane.showMessageDialog(null,"You successfully added "+consigner_Name+", Address: "+address+", E-mail: "+E_Mail+", Routing Number: "+banking_Number+".");
+            System.out.println(String.format("You added"));
+            return true;
+        }catch(SQLException se){
+            System.out.println("Insertion of Consigner Information Failed");
+            System.out.println(se);
+            return false;
+        }
+    }
     public boolean insert_Record_To_Catalog(String artistName,String albumTitle,double price,String shelvedDay,boolean soldOrNot,int consignerID){
         PreparedStatement ps = null;
         try{
@@ -140,6 +163,18 @@ private void countRows(){
         }
 
 
+    }
+    public static void refresh(int table){
+        //IF THE TABLE IS A CATALOG TABLE
+        if (table==0){
+
+        }
+        //IF THE TABLE IS A CONSIGNERS TABLE
+        else if (table ==1){
+
+        }else if(table ==2){
+
+        }
     }
     public String getColumnName(int colIndex){
         try{
