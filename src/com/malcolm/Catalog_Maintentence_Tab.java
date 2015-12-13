@@ -167,7 +167,7 @@ public class Catalog_Maintentence_Tab extends JPanel{
                 }
                 boolean deleted = catalogDisplayDataModel.deleteRow(currentRow);
                 if(deleted) {
-                    catalogDisplayDataModel.search("Default","");
+                    catalogDisplayDataModel.search("Default","",0);
                 }
                 }else if(n==1){
                     JOptionPane.showMessageDialog(catalog_Maint_Panel,"The selected row was not deleted for some reason.");
@@ -181,14 +181,14 @@ public class Catalog_Maintentence_Tab extends JPanel{
             public void actionPerformed(ActionEvent e) {
 
                     if(searchParamComboBox.getSelectedItem().equals(searchOp0)){
-                        catalogDisplayDataModel.search("Default","");
+                        catalogDisplayDataModel.search("Default","",0);
                         System.out.println("Default Settings re-established");
                     }else if(searchParamComboBox.getSelectedItem().equals(searchOp1)){
                         searchParam = searchParameterTextField.getText();
-                        catalogDisplayDataModel.search("Artist_Name",searchParam);
+                        catalogDisplayDataModel.search("Artist_Name",searchParam,0);
                     }else if(searchParamComboBox.getSelectedItem().equals(searchOp2)){
                         searchParam = searchParameterTextField.getText();
-                        catalogDisplayDataModel.search("Album_Title",searchParam);
+                        catalogDisplayDataModel.search("Album_Title",searchParam,0);
                     }else if(searchParamComboBox.getSelectedItem().equals(searchOp3)) {
                         price = Double.parseDouble(searchParameterTextField.getText());
                         catalogDisplayDataModel.searchPrice("Price",price);
@@ -210,6 +210,7 @@ public class Catalog_Maintentence_Tab extends JPanel{
                     //this grabs the ID number of the record so that I can execute the Data Models 'Sell Record' method.
                     String i = (String)catalogDisplayDataModel.getValueAt(rowIndex,0);
                     if(catalogDisplayDataModel.sellRecord(i)){
+                        catalogDisplayDataModel.fireTableDataChanged();
                         JOptionPane.showMessageDialog(catalog_Maint_Panel,"Record has been sold and moved to sales tab.");
                     }
                 } else if(n==1){

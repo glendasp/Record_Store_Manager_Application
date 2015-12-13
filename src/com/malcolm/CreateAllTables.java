@@ -13,7 +13,8 @@ public class CreateAllTables {
     public final static String CONSIGNER_TABLE_NAME="consigners";
     public final static String CONSIGNER_TABLE_PK="C_ID";
     public final static String CONSIGNER_NAME_COL="Consigner_Name";
-    public final static String CONSIGNER_OWED_COL="Money_Owed";
+    public final static String CONSIGNER_ADDRESS="Address";
+    public final static String CONSIGNER_EMAIL="E_Mail";
     public final static String CONSIGNER_BANK_NUM="Bank_Account_Number";//This exists only as a place holder for a real money interface.
     // For now this will work.
     //Info for Records_Catalog Table
@@ -52,7 +53,7 @@ public void ActivateTableCreation(){
             System.out.println("Created the Consigner's Information Table");
         }
         if(!catalog_Table_Exists()){
-            String create_Record_Catalog_SQL="CREATE TABLE record_catalog (`Record_ID` INT(11) NOT NULL AUTO_INCREMENT ,`Artist_Name` VARCHAR(40) NULL DEFAULT NULL,`Album_Title` VARCHAR(50) NULL DEFAULT NULL,`Price` DECIMAL(6,2) NULL DEFAULT NULL,`Shelved_Date` DATE NULL DEFAULT NULL,`Sold_Or_Not` BOOLEAN NULL DEFAULT False,`consigners_C_ID` INT(11) not NULL,PRIMARY KEY (`Record_ID`, `consigners_C_ID`),INDEX `fk_record_catalog_consigners_idx` (`consigners_C_ID` ASC),CONSTRAINT `fk_record_catalog_consigners`FOREIGN KEY (`consigners_C_ID`)REFERENCES `record_store`.`consigners` (`C_ID`)ON DELETE NO ACTION ON UPDATE NO ACTION)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8";
+            String create_Record_Catalog_SQL="CREATE TABLE record_catalog (`Record_ID` INT(11) NOT NULL AUTO_INCREMENT ,`Artist_Name` VARCHAR(40) NULL DEFAULT NULL,`Album_Title` VARCHAR(50) NULL DEFAULT NULL,`Price` DECIMAL(6,2) NULL DEFAULT NULL,`Shelved_Date` DATE NULL DEFAULT NULL,`Sold_Or_Not` BOOLEAN NULL DEFAULT False,Archived_Or_Not BOOLEAN NULL DEFAULT FALSE ,`consigners_C_ID` INT(11) not NULL,PRIMARY KEY (`Record_ID`, `consigners_C_ID`),INDEX `fk_record_catalog_consigners_idx` (`consigners_C_ID` ASC),CONSTRAINT `fk_record_catalog_consigners`FOREIGN KEY (`consigners_C_ID`)REFERENCES `record_store`.`consigners` (`C_ID`)ON DELETE NO ACTION ON UPDATE NO ACTION)ENGINE = InnoDB DEFAULT CHARACTER SET = utf8";
             ConnectToDB.statement.executeUpdate(create_Record_Catalog_SQL);
             insert_Test_Data_For_Record_Catalog();
             System.out.println("Created the Records Information Table");
@@ -122,13 +123,13 @@ public void ActivateTableCreation(){
             ConnectToDB.statement.executeUpdate("insert into record_catalog (Artist_Name,Album_Title,Price,Shelved_Date,Sold_Or_Not,consigners_C_ID) Values('Dark Throne','Transylvania Hunger',18.90,'2015-09-15',false,6);");
             ConnectToDB.statement.executeUpdate("insert into record_catalog (Artist_Name,Album_Title,Price,Shelved_Date,Sold_Or_Not,consigners_C_ID) Values('Electric Wizard','Dope Throne',12.34,'2015-12-01',false,7);");
             ConnectToDB.statement.executeUpdate("insert into record_catalog (Artist_Name,Album_Title,Price,Shelved_Date,Sold_Or_Not,consigners_C_ID) Values('Sleep','Sleeps Holy Mountain',14.50,'2015-12-01',false,8);");
-            ConnectToDB.statement.executeUpdate("insert into record_catalog (Artist_Name,Album_Title,Price,Shelved_Date,Sold_Or_Not,consigners_C_ID) Values('Sleep','Dopesmoker',13.04,'2015-11-21',false,9);");
+            ConnectToDB.statement.executeUpdate("insert into record_catalog (Artist_Name,Album_Title,Price,Shelved_Date,Sold_Or_Not,consigners_C_ID) Values('Sleep','Dopesmoker',13.04,'2015-11-21',true,9);");
             ConnectToDB.statement.executeUpdate("insert into record_catalog (Artist_Name,Album_Title,Price,Shelved_Date,Sold_Or_Not,consigners_C_ID) Values('The Strokes','Is this It',15.55,'2015-06-01',false,10);" );
             ConnectToDB.statement.executeUpdate("insert into record_catalog (Artist_Name,Album_Title,Price,Shelved_Date,Sold_Or_Not,consigners_C_ID) Values('CHVRCHES','The Bones of What You Believe',20.55,'2015-10-11',false,11);");
             ConnectToDB.statement.executeUpdate("insert into record_catalog (Artist_Name,Album_Title,Price,Shelved_Date,Sold_Or_Not,consigners_C_ID) Values('CHVRCHES','Every Open Eye',20.55,'2015-10-11',false,11);");
             ConnectToDB.statement.executeUpdate("insert into record_catalog (Artist_Name,Album_Title,Price,Shelved_Date,Sold_Or_Not,consigners_C_ID) Values('Paul Simon','Graceland',34.99,'2015-12-01',false,1);");
             ConnectToDB.statement.executeUpdate("insert into record_catalog (Artist_Name,Album_Title,Price,Shelved_Date,Sold_Or_Not,consigners_C_ID) Values('Simon and Garfunkel','Wednesday Morning, 3am',25.00,'2015-11-27',false,1);");
-            ConnectToDB.statement.executeUpdate("insert into record_catalog (Artist_Name,Album_Title,Price,Shelved_Date,Sold_Or_Not,consigners_C_ID) Values('Bongripper','Hail Satan Worship Doom',26.00,'2015-11-09',false,2);");
+            ConnectToDB.statement.executeUpdate("insert into record_catalog (Artist_Name,Album_Title,Price,Shelved_Date,Sold_Or_Not,consigners_C_ID) Values('Bongripper','Hail Satan Worship Doom',26.00,'2015-11-09',true,2);");
             ConnectToDB.statement.executeUpdate("insert into record_catalog (Artist_Name,Album_Title,Price,Shelved_Date,Sold_Or_Not,consigners_C_ID) Values('THOU','Peasant',14.44,'2015-12-02',false,3);");
             ConnectToDB.statement.executeUpdate("insert into record_catalog (Artist_Name,Album_Title,Price,Shelved_Date,Sold_Or_Not,consigners_C_ID) Values('Father John Misty','I love you, honeybear',20.99,'2015-11-15',false,4);");
             ConnectToDB.statement.executeUpdate("insert into record_catalog (Artist_Name,Album_Title,Price,Shelved_Date,Sold_Or_Not,consigners_C_ID) Values('Trampled by Turtles','Palamino',30.00,'2015-11-19',false,5);");

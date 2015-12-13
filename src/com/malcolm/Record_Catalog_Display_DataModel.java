@@ -137,7 +137,7 @@ private void countRows(){
             ps.executeUpdate();
             this.fireTableDataChanged();
             //FIXME: I know this is a terrible solution for the issue, but it works for now.
-            search("Default","");
+            this.fireTableDataChanged();
             ps.close();
             return true;
         }catch(SQLException se){
@@ -154,7 +154,8 @@ private void countRows(){
             ps=ConnectToDB.conn.prepareStatement(sell_Record_SQL);
             ps.setInt(1,r_id);
             ps.executeUpdate();
-            search("Default","");
+            this.fireTableDataChanged();
+            search("Default","",0);
             return true;
         }catch(SQLException se){
             System.out.println("An error occurred when selling the record.");
@@ -163,18 +164,6 @@ private void countRows(){
         }
 
 
-    }
-    public static void refresh(int table){
-        //IF THE TABLE IS A CATALOG TABLE
-        if (table==0){
-
-        }
-        //IF THE TABLE IS A CONSIGNERS TABLE
-        else if (table ==1){
-
-        }else if(table ==2){
-
-        }
     }
     public String getColumnName(int colIndex){
         try{
@@ -186,30 +175,79 @@ private void countRows(){
             return "ERROR IN COLUMN GETTER";
         }
     }
-
-    public void search(String selField, String searchString) {
+                                                    //0=catalog,1=consigners,2=sales page,3=//todo
+    public void search(String selField, String searchString, int tabIndex) {
         /** The ideas behind this method are entirely thanks to the genius of Anna**/
-        if (selField.equals("Default")) {
-            try {
-                this.resultSet = ConnectToDB.statement.executeQuery("SELECT * FROM " + CreateAllTables.RECORD_CATALOG_TABLE_NAME + " WHERE Sold_Or_Not = FALSE ; ");
-            }catch(SQLException se){
-                System.out.println("Error resetting to default results");
-                System.out.println(se);
-            }
+
+        if(tabIndex==0){
+            if (selField.equals("Default")) {
+                try {
+                    this.resultSet = ConnectToDB.statement.executeQuery("SELECT * FROM " + CreateAllTables.RECORD_CATALOG_TABLE_NAME + " WHERE Sold_Or_Not = FALSE AND Archived_Or_Not=FALSE ; ");
+                }catch(SQLException se){
+                    System.out.println("Error resetting to default results");
+                    System.out.println(se);
+                }
             } else {
 
-            String sqlToRun = "SELECT * FROM record_catalog WHERE " +
-                    selField + " LIKE ?";
-            PreparedStatement ps = null;
-            try {
-                ps = ConnectToDB.conn.prepareStatement(sqlToRun);
-                ps.setString(1, "%" + searchString + "%");
-                this.resultSet = ps.executeQuery();
-            } catch (SQLException sqle) {
-                System.out.println("Unable to fetch search results.");
+                String sqlToRun = "SELECT * FROM record_catalog WHERE " +
+                        selField + " LIKE ?";
+                PreparedStatement ps = null;
+                try {
+                    ps = ConnectToDB.conn.prepareStatement(sqlToRun);
+                    ps.setString(1, "%" + searchString + "%");
+                    this.resultSet = ps.executeQuery();
+                } catch (SQLException sqle) {
+                    System.out.println("Unable to fetch search results.");
+                }
             }
-
             this.fireTableDataChanged();
+        }//Search the consigners table
+        else if(tabIndex==1){
+            if(selField.equals("Default")){
+                try{
+                    this.resultSet = ConnectToDB.statementForConsignerMaintTab.executeQuery("SELECT * FROM consigners");
+                    this.fireTableDataChanged();
+                }catch(SQLException se){
+                    System.out.println("An error ocurred while trying reset to default search.");
+                    System.out.println(se);
+                }
+            }else {
+                String sqlToRun="SELECT * FROM consigners WHERE "+selField+" LIKE ?";
+                PreparedStatement ps = null;
+                try{
+                    ps=ConnectToDB.conn.prepareStatement(sqlToRun);
+                    ps.setString(1,"%"+searchString+"%");
+                    this.resultSet=ps.executeQuery();
+                }catch(SQLException se){
+                    System.out.println("Unable to fetch search results");
+                    System.out.println(se);
+                }
+            }
+        this.fireTableDataChanged();
+        }
+        else if(tabIndex==2){
+            //this is the sold records updater
+            if(selField=="Default"){
+                try{
+                    this.resultSet=ConnectToDB.statementForSoldRecords.executeQuery("SELECT * FROM record_catalog WHERE Sold_Or_Not=TRUE AND Archived_Or_Not=FALSE ");
+                }catch (SQLException se){
+                    System.out.println(se);
+
+                }
+            }
+        }
+        else if(tabIndex==3){
+            if(selField=="Default"){
+                try{
+                    this.resultSet=ConnectToDB.statementForConsignerSales.executeQuery("SELECT * FROM consignerSales");
+                }catch (SQLException se){
+                    System.out.println(se);
+
+                }
+            }
+        }
+        else if(tabIndex==4){
+            //TODO put a final pan of archived sales.
         }
     }
     public void searchPrice(String selField, double searchPrice) {

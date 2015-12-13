@@ -29,13 +29,17 @@ public class User_Interface extends JFrame implements WindowListener{
                 System.out.println("Tab Index Number: "+index);
                 if(index==0){
                     catalog_display_dataModel.fireTableDataChanged();
+                    catalog_display_dataModel.search("Default","",index);
                 }
                 else if(index==1){
                     consigner_display_dataModel.fireTableDataChanged();
+                    consigner_display_dataModel.search("Default","",index);
                 }
                 else if(index==2){
                     sales_Tab_Consigner_DataModel.fireTableDataChanged();
+                    sales_Tab_Consigner_DataModel.search("Default","",index+1);
                     sold_Records_Datamodel.fireTableDataChanged();
+                    sold_Records_Datamodel.search("Default","",index);
                     System.out.println("This is the sales tab!");
                     //TODO put actual code here
                 }

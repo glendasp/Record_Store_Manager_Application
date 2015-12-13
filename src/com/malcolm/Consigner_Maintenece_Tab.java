@@ -77,17 +77,24 @@ public class Consigner_Maintenece_Tab extends JPanel{
             String searchParam="";
             @Override
             public void actionPerformed(ActionEvent e) {
+                searchParam=searchParameter.getText();
                 if(searchOptionsComboBox.getSelectedItem().equals(searchOp0)){
-                    consigner_display_dataModel.search("Default","");
+                    consigner_display_dataModel.search("Default","",1);
                 }else if(searchOptionsComboBox.getSelectedItem().equals(searchOp1)){
-
+                    consigner_display_dataModel.search(CreateAllTables.CONSIGNER_NAME_COL,searchParam,1);
                 }else if(searchOptionsComboBox.getSelectedItem().equals(searchOp2)){
-
+                    consigner_display_dataModel.search(CreateAllTables.CONSIGNER_ADDRESS,searchParam,1);
                 }else if(searchOptionsComboBox.getSelectedItem().equals(searchOp3)){
-
+                    consigner_display_dataModel.search(CreateAllTables.CONSIGNER_EMAIL,searchParam,1);
                 }else if(searchOptionsComboBox.getSelectedItem().equals(searchOp4)){
-
+                    consigner_display_dataModel.search(CreateAllTables.CONSIGNER_BANK_NUM,searchParam,1);
                 }
+            }
+        });
+        remove_Consigner.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
             }
         });
     }
